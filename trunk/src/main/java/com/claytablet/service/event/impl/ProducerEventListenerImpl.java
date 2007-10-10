@@ -19,7 +19,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class EventListenerProducer implements EventListener {
+public class ProducerEventListenerImpl implements EventListener {
 
 	private final Log log = LogFactory.getLog(getClass());
 
@@ -33,7 +33,7 @@ public class EventListenerProducer implements EventListener {
 	 * @param platformSender
 	 */
 	@Inject
-	public EventListenerProducer(
+	public ProducerEventListenerImpl(
 			QueueSubscriberServiceFactory queueSubscriberServiceFactory,
 			ProducerReceiver producerReceiver) {
 		this.queueSubscriberServiceFactory = queueSubscriberServiceFactory;
