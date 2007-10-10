@@ -30,13 +30,12 @@ import com.google.inject.Injector;
  * @author <a href="mailto:drapin@clay-tablet.com">Dave Rapin</a>
  * 
  * <p>
- * Producer event subscriber cron that will inject and call the event listener
- * service at a configurable interval. Default sleep interval is 300 seconds (5
- * minutes).
+ * Producer event cron that will inject and call the event listener service at a
+ * configurable interval. Default sleep interval is 300 seconds (5 minutes).
  * 
  * <p>
  * When called the event listener service checks for new message events,
- * validates them, and passes them on for processing.
+ * validates them, and passes them to the receiver for processing.
  */
 public class ProducerEventCron {
 
