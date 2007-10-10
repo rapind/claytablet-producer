@@ -1,6 +1,15 @@
 Clay Tablet Producer Client
 ---------------------------
 
+The Clay Tablet Technologies producer client project is a starting point for Java based producer implementations.
+
+The project includes an event receiver that will receive events from the Clay Tablet platform and an event sender that will send events to the Clay Tablet platform. Methods for uploading and downloading asset, support asset, and asset task version files to and from remote storage are included.
+
+There is also an event listener cron provided which will poll the producer queue every X interval.
+
+In order to properly run the tests and use the client ode provided you will need to request a clay tablet account. Please send account requests to drapin@clay-tablet.com and include your name and your company name. Once your account has been created you will be sent an xml file which should be placed in /src/main/resources/accounts/.
+
+
 Project Dependencies:
 
 - claytablet-event-api
