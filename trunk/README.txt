@@ -9,6 +9,11 @@ There is also an event listener cron provided which will poll the producer queue
 
 In order to properly run the tests and use the client code provided you will need to request a clay tablet account. Please send account requests to drapin@clay-tablet.com and include your name and your company name, and that you require a producer account. Once your account has been created you will be sent an xml file which should be placed in /src/main/resources/accounts/.
 
+The classes of interest for third-party integrators are:
+- /src/main/java/com/claytablet/app/ProducerEventCron.java
+- /src/main/java/com/claytablet/service/event/impl/ProducerEventListenerImpl.java
+- /src/main/java/com/claytablet/service/event/impl/ProducerReceiverImpl.java
+- /src/main/java/com/claytablet/service/event/impl/ProducerSenderImpl.java
 
 Project Dependencies:
 
