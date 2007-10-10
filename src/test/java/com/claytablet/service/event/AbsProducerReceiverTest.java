@@ -50,7 +50,7 @@ public abstract class AbsProducerReceiverTest extends TestCase {
 
 	protected final String PLATFORM_ACCOUNT_ID = "ctt-platform";
 
-	// replace this with the producer cms account identifier.
+	// TODO - replace this with your assigned account identifier
 	protected final String PRODUCER_ACCOUNT_ID = "ctt-producer-cms1";
 
 	// -------------------------------------------------------------------------
