@@ -107,8 +107,11 @@ public class ProducerReceiverImpl extends AbsEventClientImpl implements
 
 		log.debug("Download the latest asset task revision for: "
 				+ event.getAssetTaskId());
-		super.downloadLatestAssetTaskVersion(event.getTargetAccountId(), event
-				.getAssetTaskId());
+		String downloadPath = super.downloadLatestAssetTaskVersion(event
+				.getTargetAccountId(), event.getAssetTaskId(),
+				"./files/received/");
+
+		log.debug("Downloaded an asset task version file to: " + downloadPath);
 
 		// TODO - producer integration code goes here.
 		// I.e. send the asset to the CMS and mark it for review.
