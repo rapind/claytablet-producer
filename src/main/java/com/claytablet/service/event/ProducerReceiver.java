@@ -1,6 +1,6 @@
 package com.claytablet.service.event;
 
-import com.claytablet.model.event.platform.CompleteProject;
+import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
 import com.claytablet.model.event.platform.ReviewAssetTask;
 import com.claytablet.service.event.impl.ProducerReceiverImpl;
@@ -46,7 +46,7 @@ import com.google.inject.ImplementedBy;
 public interface ProducerReceiver extends AbsEventClient {
 
 	/**
-	 * Receives a complete project event.
+	 * Receives a completed project event.
 	 * 
 	 * <p>
 	 * Once all of the tasks for a project have been approved or concelled the
@@ -57,7 +57,7 @@ public interface ProducerReceiver extends AbsEventClient {
 	 * @param event
 	 *            The event to process.
 	 */
-	public void receiveEvent(CompleteProject event);
+	public void receiveEvent(CompletedProject event);
 
 	/**
 	 * Receives a processing error event.

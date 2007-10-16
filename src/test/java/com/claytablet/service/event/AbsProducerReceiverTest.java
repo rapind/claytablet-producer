@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.claytablet.model.event.platform.CompleteProject;
+import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
 import com.claytablet.model.event.platform.ReviewAssetTask;
 import com.claytablet.util.LanguageUtil;
@@ -113,7 +113,7 @@ public abstract class AbsProducerReceiverTest extends TestCase {
 	public void testCompleteProject() throws Exception {
 
 		log.debug("Create a mock CompleteProject event.");
-		CompleteProject event = new CompleteProject();
+		CompletedProject event = new CompletedProject();
 		event.setSourceAccountId(PLATFORM_ACCOUNT_ID);
 		event.setTargetAccountId(PRODUCER_ACCOUNT_ID);
 		event.setProjectNativeId("mock-native-id");
