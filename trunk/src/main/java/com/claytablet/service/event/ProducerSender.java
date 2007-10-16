@@ -2,7 +2,6 @@ package com.claytablet.service.event;
 
 import com.claytablet.model.event.producer.ApproveAssetTask;
 import com.claytablet.model.event.producer.CancelAsset;
-import com.claytablet.model.event.producer.CancelAssetTask;
 import com.claytablet.model.event.producer.CancelProject;
 import com.claytablet.model.event.producer.CancelSupportAsset;
 import com.claytablet.model.event.producer.CreateAsset;
@@ -42,7 +41,6 @@ import com.google.inject.ImplementedBy;
  * @see ProducerSenderImpl
  * @see ApproveAssetTask
  * @see CancelAsset
- * @see CancelAssetTask
  * @see CancelProject
  * @see CancelSupportAsset
  * @see CreateAsset
@@ -82,18 +80,6 @@ public interface ProducerSender extends AbsEventClient {
 	 * @throws QueueServiceException
 	 */
 	public void sendEvent(CancelAsset event) throws EventServiceException,
-			QueueServiceException;
-
-	/**
-	 * Sends a cancel asset task event.
-	 * 
-	 * @param event
-	 *            Required parameter that specifies the cancel asset task event
-	 *            to send.
-	 * @throws EventServiceException
-	 * @throws QueueServiceException
-	 */
-	public void sendEvent(CancelAssetTask event) throws EventServiceException,
 			QueueServiceException;
 
 	/**

@@ -12,7 +12,6 @@ import com.claytablet.model.enm.ContentType;
 import com.claytablet.model.enm.FileType;
 import com.claytablet.model.event.producer.ApproveAssetTask;
 import com.claytablet.model.event.producer.CancelAsset;
-import com.claytablet.model.event.producer.CancelAssetTask;
 import com.claytablet.model.event.producer.CancelProject;
 import com.claytablet.model.event.producer.CancelSupportAsset;
 import com.claytablet.model.event.producer.CreateAsset;
@@ -48,7 +47,6 @@ import com.claytablet.util.LanguageUtil;
  * @see ProducerSender
  * @see ApproveAssetTask
  * @see CancelAsset
- * @see CancelAssetTask
  * @see CancelProject
  * @see CancelSupportAsset
  * @see CreateAsset
@@ -135,27 +133,6 @@ public abstract class AbsProducerSenderTest extends TestCase {
 		event.setSourceAccountId(PRODUCER_ACCOUNT_ID);
 		event.setTargetAccountId(PLATFORM_ACCOUNT_ID);
 		event.setAssetId("mock-asset-id");
-
-		sender.sendEvent(event);
-
-		log.debug("Assertions.");
-		assertTrue(true);
-
-	}
-
-	/**
-	 * Test for CancelAssetTask event sending.
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testCancelAssetTask() throws Exception {
-
-		log.debug("Create a mock CancelAssetTask event.");
-		CancelAssetTask event = new CancelAssetTask();
-		event.setSourceAccountId(PRODUCER_ACCOUNT_ID);
-		event.setTargetAccountId(PLATFORM_ACCOUNT_ID);
-		event.setAssetTaskId("mock-asset-task-id");
 
 		sender.sendEvent(event);
 

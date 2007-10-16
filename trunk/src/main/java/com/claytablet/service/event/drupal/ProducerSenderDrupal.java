@@ -4,7 +4,6 @@ import com.claytablet.factory.QueuePublisherServiceFactory;
 import com.claytablet.factory.StorageClientServiceFactory;
 import com.claytablet.model.event.producer.ApproveAssetTask;
 import com.claytablet.model.event.producer.CancelAsset;
-import com.claytablet.model.event.producer.CancelAssetTask;
 import com.claytablet.model.event.producer.CancelProject;
 import com.claytablet.model.event.producer.CancelSupportAsset;
 import com.claytablet.model.event.producer.CreateAsset;
@@ -108,24 +107,6 @@ public class ProducerSenderDrupal extends AbsEventClientImpl implements
 	 * @see com.claytablet.service.event.ProducerSender#sendEvent(com.claytablet.model.event.producer.CancelAsset)
 	 */
 	public void sendEvent(CancelAsset event) throws EventServiceException,
-			QueueServiceException {
-
-		log.debug("Run event field validation.");
-		String validate = event.validate();
-		if (validate != null) {
-			throw new EventServiceException(validate);
-		}
-
-		// send the event
-		super.sendEvent(event);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.claytablet.service.event.ProducerSender#sendEvent(com.claytablet.model.event.producer.CancelAssetTask)
-	 */
-	public void sendEvent(CancelAssetTask event) throws EventServiceException,
 			QueueServiceException {
 
 		log.debug("Run event field validation.");
