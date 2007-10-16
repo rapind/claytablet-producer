@@ -2,7 +2,7 @@ package com.claytablet.service.event.impl;
 
 import com.claytablet.factory.QueuePublisherServiceFactory;
 import com.claytablet.factory.StorageClientServiceFactory;
-import com.claytablet.model.event.platform.CompleteProject;
+import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
 import com.claytablet.model.event.platform.ReviewAssetTask;
 import com.claytablet.service.event.EventServiceException;
@@ -59,9 +59,9 @@ public class ProducerReceiverImpl extends AbsEventClientImpl implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.claytablet.service.client.ReceiverProducer#receiveEvent(com.claytablet.model.event.platform.CompleteProject)
+	 * @see com.claytablet.service.client.ReceiverProducer#receiveEvent(com.claytablet.model.event.platform.CompletedProject)
 	 */
-	public void receiveEvent(CompleteProject event) {
+	public void receiveEvent(CompletedProject event) {
 
 		log.debug(event.getClass().getSimpleName() + " event received.");
 
