@@ -15,15 +15,12 @@ The classes of interest for third-party integrators are:
 - /src/main/java/com/claytablet/service/event/impl/ProducerReceiverImpl.java
 - /src/main/java/com/claytablet/service/event/impl/ProducerSenderImpl.java
 
-Project Dependencies:
-
-- claytablet-event-api
-- claytablet-queue
-- claytablet-storage
+You can run the event reception cron from ant with the "event" task. I.e. "ant event". You will begin listening to the queue specified in your account XML.
 
 
 Library Dependencies:
 
+- aopalliance.jar
 - claytablet-event-api-1.0.jar
 - claytablet-queue-1.0.jar
 - claytablet-storage-1.0.jar
@@ -50,6 +47,17 @@ If using JMS:
 If using SQS:
 
 - typica-0.7.jar
+- jaxb-xjc.jar
+
+*********
+WARNING FOR J2SE 6
+Java SE 6 comes with JAXB 2.0. If you are using 6 then the following JAXB jars 
+should be removed from the lib dir and placed into the jre/lib/endoresed dir.
+*********
+- activation.jar
+- jaxb-api.jar
+- jaxb-impl.jar
+- jsr173_1.0_api.jar
 
 If using S3:
 
