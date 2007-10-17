@@ -104,4 +104,13 @@
 		</java>
 	</target>
 
+	<target name="mock" depends="compile" description="Sends mock events for testing purposes.">
+		<java classname="com.claytablet.app.ProducerEventSenderMock">
+			<classpath refid="master.classpath"/>
+			<classpath>
+				<pathelement path="${target.compile.main.dir}"/>
+			</classpath>
+		</java>
+	</target>
+
 </project>
