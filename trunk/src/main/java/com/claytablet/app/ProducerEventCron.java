@@ -3,7 +3,7 @@ package com.claytablet.app;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.claytablet.module.SQSS3Module;
+import com.claytablet.module.MockSQSS3Module;
 import com.claytablet.service.event.EventListener;
 import com.claytablet.service.event.impl.ProducerEventListenerImpl;
 import com.google.inject.Guice;
@@ -59,7 +59,8 @@ public class ProducerEventCron {
 
 		log.debug("Initialize dependencies.");
 		// setup the preferred Guice injector for DI
-		Injector injector = Guice.createInjector(new SQSS3Module());
+		// Injector injector = Guice.createInjector(new SQSS3Module());
+		Injector injector = Guice.createInjector(new MockSQSS3Module());
 
 		// load the listener
 		EventListener listener = injector
