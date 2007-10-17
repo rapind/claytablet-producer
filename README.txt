@@ -17,6 +17,10 @@ The classes of interest for third-party integrators are:
 
 You can run the event reception cron from ant with the "event" task. I.e. "ant event". You will begin listening to the queue specified in your account XML.
 
+We recommend using Java 1.5 for this project due to issues with Java 6 and JAXB versions. At least until Java 6 Update 5 is released. For more details see:
+https://jaxb.dev.java.net/guide/Migrating_JAXB_2_0_applications_to_JavaSE_6.html
+http://forums.java.net/jive/thread.jspa?messageID=239022
+
 
 Library Dependencies:
 
