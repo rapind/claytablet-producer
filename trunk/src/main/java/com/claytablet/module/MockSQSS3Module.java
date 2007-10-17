@@ -14,7 +14,7 @@ import com.claytablet.service.event.mock.ProducerReceiverMock;
  * Mock module for Guice configuration. Extends the SQSS3Module and overrides
  * the default receiver binding for a mock implementation.
  */
-public class MockModule extends SQSS3Module {
+public class MockSQSS3Module extends SQSS3Module {
 
 	protected void configure() {
 
