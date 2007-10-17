@@ -39,10 +39,10 @@ import com.google.inject.Injector;
  * Producer event sender that will create and send several assets, support
  * assets, and the wrapping project.
  */
-public class ProducerEventSenderTest {
+public class ProducerEventSenderMock {
 
 	private static final Log log = LogFactory
-			.getLog(ProducerEventSenderTest.class);
+			.getLog(ProducerEventSenderMock.class);
 
 	private static final String PLATFORM_ACCOUNT_ID = "ctt-platform";
 
