@@ -74,7 +74,7 @@
 			</packageset>
 
 			<classpath refid="master.classpath"/>
-			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+			<link href="http://java.sun.com/javase/6/docs/api/"/>
 		</javadoc>
 
 	</target>
@@ -90,9 +90,18 @@
 				use="true"
 				windowtitle="Clay Tablet Technologies - Producer Client API">
 			<classpath refid="master.classpath"/>
-			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+			<link href="http://java.sun.com/javase/6/docs/api/"/>
 		</javadoc>
 
+	</target>
+
+	<target name="event" depends="compile" description="The event listener cron.">
+		<java classname="com.claytablet.app.ProducerEventCron">
+			<classpath refid="master.classpath"/>
+			<classpath>
+				<pathelement path="${target.compile.main.dir}"/>
+			</classpath>
+		</java>
 	</target>
 
 </project>
