@@ -1,12 +1,16 @@
-package com.claytablet.service.event.impl;
+package com.claytablet.service.event.mock;
 
 import com.claytablet.factory.QueuePublisherServiceFactory;
 import com.claytablet.factory.StorageClientServiceFactory;
 import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
 import com.claytablet.model.event.platform.ReviewAssetTask;
+import com.claytablet.model.event.producer.ApproveAssetTask;
+import com.claytablet.queue.service.QueueServiceException;
 import com.claytablet.service.event.EventServiceException;
 import com.claytablet.service.event.ProducerReceiver;
+import com.claytablet.service.event.ProducerSender;
+import com.claytablet.service.event.impl.AbsEventClientImpl;
 import com.claytablet.storage.service.StorageServiceException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -39,21 +43,32 @@ import com.google.inject.Singleton;
  * @see AbsEventClientImpl
  */
 @Singleton
-public class ProducerReceiverImpl extends AbsEventClientImpl implements
+public class ProducerReceiverMock extends AbsEventClientImpl implements
 		ProducerReceiver {
+
+	// we're going to automatically respond to messages
+	private ProducerSender producerSender;
+
+	private static final String PLATFORM_ACCOUNT_ID = "ctt-platform";
+
+	// TODO - replace this with your assigned account identifier
+	private static final String PRODUCER_ACCOUNT_ID = "ctt-producer-cms1";
 
 	/**
 	 * Constructor for dependency injection.
 	 * 
 	 * @param queuePublisherServiceFactory
 	 * @param storageClientServiceFactory
+	 * @param producerSender
 	 */
 	@Inject
-	public ProducerReceiverImpl(
+	public ProducerReceiverMock(
 			QueuePublisherServiceFactory queuePublisherServiceFactory,
-			StorageClientServiceFactory storageClientServiceFactory) {
+			StorageClientServiceFactory storageClientServiceFactory,
+			ProducerSender producerSender) {
 		this.queuePublisherServiceFactory = queuePublisherServiceFactory;
 		this.storageClientServiceFactory = storageClientServiceFactory;
+		this.producerSender = producerSender;
 	}
 
 	/*
@@ -65,10 +80,7 @@ public class ProducerReceiverImpl extends AbsEventClientImpl implements
 
 		log.debug(event.getClass().getSimpleName() + " event received.");
 
-		// TODO - producer integration code goes here.
-		// I.e. mark the local project as completed in the CMS.
-
-		// If an exception is thrown the event will remain on the queue.
+		// do nothing
 	}
 
 	/*
@@ -80,16 +92,10 @@ public class ProducerReceiverImpl extends AbsEventClientImpl implements
 
 		log.debug(event.getClass().getSimpleName() + " event received.");
 
-		// TODO - producer integration code goes here.
-		// An error occured. Examine and take appropriate action.
+		// do nothing
 
 		log.error(event.getErrorMessage());
 
-		// The event.getErrorDetails() will contain the original serialized
-		// event that caused the error. It can be deserialized into it's event
-		// object and dealt with.
-
-		// If an exception is thrown the event will remain on the queue.
 	}
 
 	/*
@@ -113,10 +119,19 @@ public class ProducerReceiverImpl extends AbsEventClientImpl implements
 
 		log.debug("Downloaded an asset task version file to: " + downloadPath);
 
-		// TODO - producer integration code goes here.
-		// I.e. send the asset to the CMS and mark it for review.
+		log
+				.debug("Simulate an asset task approval with review comments and a new revised file.");
+		ApproveAssetTask event2 = new ApproveAssetTask();
+		event2.setAssetTaskId(event.getAssetTaskId());
+		event2.setReviewNote("Test review note.");
+		event2.setSourceAccountId(PRODUCER_ACCOUNT_ID);
+		event2.setTargetAccountId(PLATFORM_ACCOUNT_ID);
 
-		// If an exception is thrown the event will remain on the queue.
+		try {
+			producerSender.sendEvent(event2, downloadPath);
+		} catch (QueueServiceException e) {
+			log.error(e);
+		}
 
 	}
 }
