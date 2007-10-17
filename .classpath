@@ -23,5 +23,15 @@
 	<classpathentry kind="lib" path="lib/claytablet-event-api-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/claytablet-queue-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/claytablet-storage-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/activation.jar"/>
+	<classpathentry kind="lib" path="lib/activemq-core-4.1.0-incubator.jar"/>
+	<classpathentry kind="lib" path="lib/aopalliance.jar"/>
+	<classpathentry kind="lib" path="lib/apache-activemq-4.1.0-incubator.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb-impl.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb-xjc.jar"/>
+	<classpathentry kind="lib" path="lib/jms-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jsr173_1.0_api.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl-2.9.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
