@@ -8,7 +8,7 @@ import com.claytablet.model.enm.FileType;
 import com.claytablet.model.event.producer.CreateAsset;
 import com.claytablet.model.event.producer.CreateSupportAsset;
 import com.claytablet.model.event.producer.SubmitProject;
-import com.claytablet.module.SQSS3Module;
+import com.claytablet.module.DefaultSQSS3Module;
 import com.claytablet.service.event.ProducerSender;
 import com.claytablet.util.IdGenerator;
 import com.claytablet.util.LanguageUtil;
@@ -57,7 +57,7 @@ public class ProducerEventSenderMock {
 
 		log.debug("Initialize dependencies.");
 		// setup the preferred Guice injector for DI
-		Injector injector = Guice.createInjector(new SQSS3Module());
+		Injector injector = Guice.createInjector(new DefaultSQSS3Module());
 
 		// retrieve the default producer sender instance via Guice.
 		ProducerSender sender = injector.getInstance(ProducerSender.class);
