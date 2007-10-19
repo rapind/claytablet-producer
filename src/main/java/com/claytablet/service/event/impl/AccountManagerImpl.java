@@ -33,7 +33,7 @@ import com.google.inject.Singleton;
  * @author <a href="mailto:drapin@clay-tablet.com">Dave Rapin</a>
  * 
  * <p>
- * Default and required implementation for the account manager.
+ * Default implementation for the account manager.
  */
 @Singleton
 public class AccountManagerImpl implements AccountManager {
