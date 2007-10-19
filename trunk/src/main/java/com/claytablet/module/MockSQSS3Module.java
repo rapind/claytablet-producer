@@ -1,6 +1,8 @@
 package com.claytablet.module;
 
+import com.claytablet.service.event.AccountManager;
 import com.claytablet.service.event.ProducerReceiver;
+import com.claytablet.service.event.impl.AccountManagerImpl;
 import com.claytablet.service.event.mock.ProducerReceiverMock;
 
 /**
@@ -19,6 +21,9 @@ public class MockSQSS3Module extends SQSS3Module {
 	protected void configure() {
 
 		super.configure();
+
+		// specify account manager binding
+		bind(AccountManager.class).to(AccountManagerImpl.class);
 
 		// override the default receiver binding
 		bind(ProducerReceiver.class).to(ProducerReceiverMock.class);
