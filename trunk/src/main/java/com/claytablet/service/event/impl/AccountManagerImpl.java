@@ -55,8 +55,9 @@ public class AccountManagerImpl implements AccountManager {
 				.debug("Load and deserialize the account from the class path under: "
 						+ path);
 		try {
-			return Account.fromXml(IOUtils.toString(ClassLoader
-					.getSystemClassLoader().getResourceAsStream(path)));
+			return Account.fromXml(IOUtils.toString(getClass().getClassLoader()
+					.getResourceAsStream(path)));
+
 		} catch (IOException e) {
 			throw new EventServiceException(
 					"Unable to load the account file from class path under: "
