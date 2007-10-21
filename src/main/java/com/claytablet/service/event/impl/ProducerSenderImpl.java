@@ -1,7 +1,10 @@
 package com.claytablet.service.event.impl;
 
-import com.claytablet.factory.QueuePublisherServiceFactory;
-import com.claytablet.factory.StorageClientServiceFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.claytablet.model.event.AbsEvent;
+import com.claytablet.model.event.Account;
 import com.claytablet.model.event.producer.ApproveAssetTask;
 import com.claytablet.model.event.producer.CancelAsset;
 import com.claytablet.model.event.producer.CancelProject;
@@ -10,9 +13,14 @@ import com.claytablet.model.event.producer.CreateAsset;
 import com.claytablet.model.event.producer.CreateSupportAsset;
 import com.claytablet.model.event.producer.RejectAssetTask;
 import com.claytablet.model.event.producer.SubmitProject;
+import com.claytablet.provider.SourceAccountProvider;
+import com.claytablet.provider.TargetAccountProvider;
+import com.claytablet.queue.model.Message;
+import com.claytablet.queue.service.QueuePublisherService;
 import com.claytablet.queue.service.QueueServiceException;
 import com.claytablet.service.event.EventServiceException;
 import com.claytablet.service.event.ProducerSender;
+import com.claytablet.storage.service.StorageClientService;
 import com.claytablet.storage.service.StorageServiceException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -41,24 +49,42 @@ import com.google.inject.Singleton;
  * This is the default implementation for the producer sender.
  * 
  * @see ProducerSender
- * @see AbsEventClientImpl
+ * @see ClientAccountProvider
+ * @see PlatformAccountProvider
+ * @see QueuePublisherService
+ * @see StorageClientService
  */
 @Singleton
-public class ProducerSenderImpl extends AbsEventClientImpl implements
-		ProducerSender {
+public class ProducerSenderImpl implements ProducerSender {
+
+	private final Log log = LogFactory.getLog(getClass());
+
+	private SourceAccountProvider sap;
+
+	private TargetAccountProvider tap;
+
+	private QueuePublisherService queuePublisherService;
+
+	private StorageClientService storageClientService;
 
 	/**
 	 * Constructor for dependency injection.
 	 * 
-	 * @param queuePublisherServiceFactory
-	 * @param storageClientServiceFactory
+	 * @param sap
+	 * @param tap
+	 * @param queuePublisherService
+	 * @param storageClientService
 	 */
 	@Inject
-	public ProducerSenderImpl(
-			QueuePublisherServiceFactory queuePublisherServiceFactory,
-			StorageClientServiceFactory storageClientServiceFactory) {
-		this.queuePublisherServiceFactory = queuePublisherServiceFactory;
-		this.storageClientServiceFactory = storageClientServiceFactory;
+	public ProducerSenderImpl(SourceAccountProvider sap,
+			TargetAccountProvider tap,
+			QueuePublisherService queuePublisherService,
+			StorageClientService storageClientService) {
+
+		this.sap = sap;
+		this.tap = tap;
+		this.queuePublisherService = queuePublisherService;
+		this.storageClientService = storageClientService;
 	}
 
 	/*
@@ -71,12 +97,6 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 			throws EventServiceException, StorageServiceException,
 			QueueServiceException {
 
-		log.debug("Run event field validation.");
-		String validate = event.validate();
-		if (validate != null) {
-			throw new EventServiceException(validate);
-		}
-
 		log.debug("Check to see if a file is being uploaded.");
 		if (sourceFilePath != null || sourceFilePath.length() > 0) {
 
@@ -84,9 +104,18 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 			event.setFileExt(sourceFilePath.substring(sourceFilePath
 					.lastIndexOf(".") + 1, sourceFilePath.length()));
 
+			// retrieve the client account from the provider.
+			Account clientAccount = sap.get();
+
+			log.debug("Initialize the storage client service.");
+			storageClientService.setPublicKey(clientAccount.getPublicKey());
+			storageClientService.setPrivateKey(clientAccount.getPrivateKey());
+			storageClientService.setStorageBucket(clientAccount
+					.getStorageBucket());
+
 			log.debug("Upload the asset task version file: " + sourceFilePath);
-			super.uploadAssetTaskVersion(event.getSourceAccountId(), event
-					.getAssetTaskId(), event.getFileExt(), sourceFilePath);
+			storageClientService.uploadAssetTaskVersion(event.getAssetTaskId(),
+					event.getFileExt(), sourceFilePath);
 
 			log.debug("Make sure the with content flag is set to true.");
 			event.setWithContent(true);
@@ -96,7 +125,7 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 		}
 
 		// send the event
-		super.sendEvent(event);
+		sendEvent((AbsEvent) event);
 
 	}
 
@@ -108,14 +137,8 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 	public void sendEvent(CancelAsset event) throws EventServiceException,
 			QueueServiceException {
 
-		log.debug("Run event field validation.");
-		String validate = event.validate();
-		if (validate != null) {
-			throw new EventServiceException(validate);
-		}
-
 		// send the event
-		super.sendEvent(event);
+		sendEvent((AbsEvent) event);
 	}
 
 	/*
@@ -126,14 +149,8 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 	public void sendEvent(CancelProject event) throws EventServiceException,
 			QueueServiceException {
 
-		log.debug("Run event field validation.");
-		String validate = event.validate();
-		if (validate != null) {
-			throw new EventServiceException(validate);
-		}
-
 		// send the event
-		super.sendEvent(event);
+		sendEvent((AbsEvent) event);
 	}
 
 	/*
@@ -144,14 +161,8 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 	public void sendEvent(CancelSupportAsset event)
 			throws EventServiceException, QueueServiceException {
 
-		log.debug("Run event field validation.");
-		String validate = event.validate();
-		if (validate != null) {
-			throw new EventServiceException(validate);
-		}
-
 		// send the event
-		super.sendEvent(event);
+		sendEvent((AbsEvent) event);
 	}
 
 	/*
@@ -164,12 +175,6 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 			throws EventServiceException, StorageServiceException,
 			QueueServiceException {
 
-		log.debug("Run event field validation.");
-		String validate = event.validate();
-		if (validate != null) {
-			throw new EventServiceException(validate);
-		}
-
 		log.debug("Check to make sure a file path has been specified.");
 		if (sourceFilePath == null || sourceFilePath.length() == 0) {
 			throw new EventServiceException(
@@ -180,12 +185,20 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 		event.setFileExt(sourceFilePath.substring(sourceFilePath
 				.lastIndexOf(".") + 1, sourceFilePath.length()));
 
+		// retrieve the client account from the provider.
+		Account clientAccount = sap.get();
+
+		log.debug("Initialize the storage client service.");
+		storageClientService.setPublicKey(clientAccount.getPublicKey());
+		storageClientService.setPrivateKey(clientAccount.getPrivateKey());
+		storageClientService.setStorageBucket(clientAccount.getStorageBucket());
+
 		log.debug("Upload the asset: " + event.getAssetId());
-		super.uploadObject(event.getSourceAccountId(), event.getAssetId() + "."
-				+ event.getFileExt(), sourceFilePath);
+		storageClientService.uploadAsset(event.getAssetId(),
+				event.getFileExt(), sourceFilePath);
 
 		// send the event
-		super.sendEvent(event);
+		sendEvent((AbsEvent) event);
 	}
 
 	/*
@@ -198,12 +211,6 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 			throws EventServiceException, StorageServiceException,
 			QueueServiceException {
 
-		log.debug("Run event field validation.");
-		String validate = event.validate();
-		if (validate != null) {
-			throw new EventServiceException(validate);
-		}
-
 		log.debug("Check to make sure a file path has been specified.");
 		if (sourceFilePath == null || sourceFilePath.length() == 0) {
 			throw new EventServiceException(
@@ -214,13 +221,20 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 		event.setFileExt(sourceFilePath.substring(sourceFilePath
 				.lastIndexOf(".") + 1, sourceFilePath.length()));
 
+		// retrieve the client account from the provider.
+		Account clientAccount = sap.get();
+
+		log.debug("Initialize the storage client service.");
+		storageClientService.setPublicKey(clientAccount.getPublicKey());
+		storageClientService.setPrivateKey(clientAccount.getPrivateKey());
+		storageClientService.setStorageBucket(clientAccount.getStorageBucket());
+
 		log.debug("Upload the support asset: " + event.getSupportAssetId());
-		super.uploadObject(event.getSourceAccountId(), event
-				.getSupportAssetId()
-				+ "." + event.getFileExt(), sourceFilePath);
+		storageClientService.uploadSupportAsset(event.getSupportAssetId(),
+				event.getFileExt(), sourceFilePath);
 
 		// send the event
-		super.sendEvent(event);
+		sendEvent((AbsEvent) event);
 	}
 
 	/*
@@ -233,12 +247,6 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 			throws EventServiceException, StorageServiceException,
 			QueueServiceException {
 
-		log.debug("Run event field validation.");
-		String validate = event.validate();
-		if (validate != null) {
-			throw new EventServiceException(validate);
-		}
-
 		log.debug("Check to see if a file is being uploaded.");
 		if (sourceFilePath != null || sourceFilePath.length() > 0) {
 
@@ -246,9 +254,18 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 			event.setFileExt(sourceFilePath.substring(sourceFilePath
 					.lastIndexOf(".") + 1, sourceFilePath.length()));
 
+			// retrieve the client account from the provider.
+			Account clientAccount = sap.get();
+
+			log.debug("Initialize the storage client service.");
+			storageClientService.setPublicKey(clientAccount.getPublicKey());
+			storageClientService.setPrivateKey(clientAccount.getPrivateKey());
+			storageClientService.setStorageBucket(clientAccount
+					.getStorageBucket());
+
 			// upload the asset task file
-			super.uploadAssetTaskVersion(event.getSourceAccountId(), event
-					.getAssetTaskId(), event.getFileExt(), sourceFilePath);
+			storageClientService.uploadAssetTaskVersion(event.getAssetTaskId(),
+					event.getFileExt(), sourceFilePath);
 
 			log.debug("Make sure the with content flag is set to true.");
 			event.setWithContent(true);
@@ -258,7 +275,7 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 		}
 
 		// send the event
-		super.sendEvent(event);
+		sendEvent((AbsEvent) event);
 	}
 
 	/*
@@ -269,18 +286,52 @@ public class ProducerSenderImpl extends AbsEventClientImpl implements
 	public void sendEvent(SubmitProject event) throws EventServiceException,
 			QueueServiceException {
 
+		if (event.getName() == null || event.getName().equals("")) {
+			throw new EventServiceException("Name is a required field.");
+		}
+
+		// send the event
+		sendEvent((AbsEvent) event);
+	}
+
+	/**
+	 * Sends an event to the queue.
+	 * 
+	 * @param event
+	 *            Required parameter that specifies the event to send.
+	 * @throws EventServiceException
+	 * @throws QueueServiceException
+	 */
+	private void sendEvent(AbsEvent event) throws EventServiceException,
+			QueueServiceException {
+
+		log
+				.debug("Retrieve the client and platform accounts from the providers.");
+		Account clientAccount = sap.get();
+		Account platformAccount = tap.get();
+
+		log
+				.debug("Populate the source and target account identifiers in the event.");
+		event.setSourceAccountId(clientAccount.getId());
+		event.setTargetAccountId(platformAccount.getId());
+
 		log.debug("Run event field validation.");
 		String validate = event.validate();
 		if (validate != null) {
 			throw new EventServiceException(validate);
 		}
 
-		if (event.getName() == null || event.getName().equals("")) {
-			throw new EventServiceException("Name is a required field.");
-		}
+		log.debug("Serialize the event to a new message object.");
+		Message message = new Message(null, AbsEvent.toXml(event));
 
-		// send the event
-		super.sendEvent(event);
+		log.debug("Initialize the queue publisher.");
+		queuePublisherService.setPublicKey(clientAccount.getPublicKey());
+		queuePublisherService.setPrivateKey(clientAccount.getPrivateKey());
+		queuePublisherService.setEndpoint(platformAccount.getQueueEndpoint());
+
+		log.debug("Send the event message.");
+		queuePublisherService.sendMessage(message);
+
 	}
 
 }

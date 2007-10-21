@@ -145,10 +145,6 @@ public abstract class AbsProducerReceiverTest extends TestCase {
 		event.setAssetNativeId("mock-native-asset-id");
 		event.setTargetLanguageCode(LanguageUtil.getCode("French"));
 
-		log.debug("Upload the asset task version file that is to be reviewed.");
-		receiver.uploadAssetTaskVersion(event.getTargetAccountId(), event
-				.getAssetTaskId(), event.getFileExt(), "assetTaskVersion.txt");
-
 		log.debug("Launch the event.");
 		receiver.receiveEvent(event);
 

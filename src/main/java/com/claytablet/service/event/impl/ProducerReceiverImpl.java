@@ -1,12 +1,16 @@
 package com.claytablet.service.event.impl;
 
-import com.claytablet.factory.QueuePublisherServiceFactory;
-import com.claytablet.factory.StorageClientServiceFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.claytablet.model.event.Account;
 import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
 import com.claytablet.model.event.platform.ReviewAssetTask;
+import com.claytablet.provider.SourceAccountProvider;
 import com.claytablet.service.event.EventServiceException;
 import com.claytablet.service.event.ProducerReceiver;
+import com.claytablet.storage.service.StorageClientService;
 import com.claytablet.storage.service.StorageServiceException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -39,21 +43,25 @@ import com.google.inject.Singleton;
  * @see AbsEventClientImpl
  */
 @Singleton
-public class ProducerReceiverImpl extends AbsEventClientImpl implements
-		ProducerReceiver {
+public class ProducerReceiverImpl implements ProducerReceiver {
+
+	private final Log log = LogFactory.getLog(getClass());
+
+	private SourceAccountProvider sap;
+
+	StorageClientService storageClientService;
 
 	/**
 	 * Constructor for dependency injection.
 	 * 
-	 * @param queuePublisherServiceFactory
-	 * @param storageClientServiceFactory
+	 * @param sap
+	 * @param storageClientService
 	 */
 	@Inject
-	public ProducerReceiverImpl(
-			QueuePublisherServiceFactory queuePublisherServiceFactory,
-			StorageClientServiceFactory storageClientServiceFactory) {
-		this.queuePublisherServiceFactory = queuePublisherServiceFactory;
-		this.storageClientServiceFactory = storageClientServiceFactory;
+	public ProducerReceiverImpl(SourceAccountProvider sap,
+			StorageClientService storageClientService) {
+		this.sap = sap;
+		this.storageClientService = storageClientService;
 	}
 
 	/*
@@ -105,11 +113,19 @@ public class ProducerReceiverImpl extends AbsEventClientImpl implements
 
 		log.debug(event.getClass().getSimpleName() + " event received.");
 
+		// retrieve the client account from the provider.
+		Account clientAccount = sap.get();
+
+		log.debug("Initialize the storage client service.");
+		storageClientService.setPublicKey(clientAccount.getPublicKey());
+		storageClientService.setPrivateKey(clientAccount.getPrivateKey());
+		storageClientService.setStorageBucket(clientAccount.getStorageBucket());
+
 		log.debug("Download the latest asset task revision for: "
 				+ event.getAssetTaskId());
-		String downloadPath = super.downloadLatestAssetTaskVersion(event
-				.getTargetAccountId(), event.getAssetTaskId(),
-				"./files/received/");
+		String downloadPath = storageClientService
+				.downloadLatestAssetTaskVersion(event.getAssetTaskId(),
+						"./files/received/");
 
 		log.debug("Downloaded an asset task version file to: " + downloadPath);
 
@@ -119,4 +135,5 @@ public class ProducerReceiverImpl extends AbsEventClientImpl implements
 		// If an exception is thrown the event will remain on the queue.
 
 	}
+
 }

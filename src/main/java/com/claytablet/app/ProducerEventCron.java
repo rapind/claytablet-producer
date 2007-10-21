@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.claytablet.module.MockSQSS3Module;
 import com.claytablet.service.event.EventListener;
-import com.claytablet.service.event.impl.ProducerEventListenerImpl;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -48,9 +47,6 @@ public class ProducerEventCron {
 	// indicates no limit (all messages available)
 	private static final int MAX_MESSAGES = 0;
 
-	// TODO - replace this with your assigned account identifier
-	private static final String ACCOUNT_ID = "ctt-producer-cms1";
-
 	/**
 	 * @param args
 	 * @throws Exception
@@ -63,14 +59,13 @@ public class ProducerEventCron {
 		Injector injector = Guice.createInjector(new MockSQSS3Module());
 
 		// load the listener
-		EventListener listener = injector
-				.getInstance(ProducerEventListenerImpl.class);
+		EventListener listener = injector.getInstance(EventListener.class);
 
 		log.debug("Start the endless loop.");
 		while (true) {
 
 			// check for messages
-			listener.checkMessages(ACCOUNT_ID, MAX_MESSAGES);
+			listener.checkMessages(MAX_MESSAGES);
 
 			log.debug("sleeping for " + SLEEP_INTERVAL + " seconds.");
 			Thread.sleep(SLEEP_INTERVAL * 1000);

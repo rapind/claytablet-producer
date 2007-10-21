@@ -44,11 +44,6 @@ public class ProducerEventSenderMock {
 	private static final Log log = LogFactory
 			.getLog(ProducerEventSenderMock.class);
 
-	private static final String PLATFORM_ACCOUNT_ID = "ctt-platform";
-
-	// TODO - replace this with your assigned account identifier
-	private static final String PRODUCER_ACCOUNT_ID = "ctt-producer-cms1";
-
 	/**
 	 * @param args
 	 * @throws Exception
@@ -69,8 +64,6 @@ public class ProducerEventSenderMock {
 
 		// create the first asset
 		CreateAsset asset1 = new CreateAsset();
-		asset1.setSourceAccountId(PRODUCER_ACCOUNT_ID);
-		asset1.setTargetAccountId(PLATFORM_ACCOUNT_ID);
 		asset1.setProjectId(projectId);
 		asset1.setAssetNativeId("asset1");
 		asset1.setName("First Asset");
@@ -92,8 +85,6 @@ public class ProducerEventSenderMock {
 
 		// create the second asset
 		CreateAsset asset2 = new CreateAsset();
-		asset2.setSourceAccountId(PRODUCER_ACCOUNT_ID);
-		asset2.setTargetAccountId(PLATFORM_ACCOUNT_ID);
 		asset2.setProjectId(projectId);
 		asset2.setAssetNativeId("asset2");
 		asset2.setName("Second Asset");
@@ -115,8 +106,6 @@ public class ProducerEventSenderMock {
 
 		// create the third asset
 		CreateAsset asset3 = new CreateAsset();
-		asset3.setSourceAccountId(PRODUCER_ACCOUNT_ID);
-		asset3.setTargetAccountId(PLATFORM_ACCOUNT_ID);
 		asset3.setProjectId(projectId);
 		asset3.setAssetNativeId("asset3");
 		asset3.setName("Third Asset");
@@ -138,8 +127,6 @@ public class ProducerEventSenderMock {
 
 		// create the fourth asset
 		CreateAsset asset4 = new CreateAsset();
-		asset4.setSourceAccountId(PRODUCER_ACCOUNT_ID);
-		asset4.setTargetAccountId(PLATFORM_ACCOUNT_ID);
 		asset4.setProjectId(projectId);
 		asset4.setAssetNativeId("asset4");
 		asset4.setName("Fourth Asset");
@@ -161,8 +148,6 @@ public class ProducerEventSenderMock {
 
 		// create the first support asset
 		CreateSupportAsset supportAsset1 = new CreateSupportAsset();
-		supportAsset1.setSourceAccountId(PRODUCER_ACCOUNT_ID);
-		supportAsset1.setTargetAccountId(PLATFORM_ACCOUNT_ID);
 		supportAsset1.setProjectId(projectId);
 		supportAsset1.setSupportAssetNativeId("supportAsset1");
 		supportAsset1.setName("First Support Asset");
@@ -177,8 +162,6 @@ public class ProducerEventSenderMock {
 
 		// create the second support asset
 		CreateSupportAsset supportAsset2 = new CreateSupportAsset();
-		supportAsset2.setSourceAccountId(PRODUCER_ACCOUNT_ID);
-		supportAsset2.setTargetAccountId(PLATFORM_ACCOUNT_ID);
 		// assign it to an asset instead of a project
 		supportAsset2.setAssetId(asset2.getAssetId());
 		supportAsset2.setSupportAssetNativeId("supportAsset2");
@@ -194,8 +177,6 @@ public class ProducerEventSenderMock {
 
 		// submit the project
 		SubmitProject project = new SubmitProject();
-		project.setSourceAccountId(PRODUCER_ACCOUNT_ID);
-		project.setTargetAccountId(PLATFORM_ACCOUNT_ID);
 		// make sure we assign the project id we generated and assigned to all
 		// of the assets already.
 		project.setProjectId(projectId);
