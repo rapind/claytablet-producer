@@ -37,7 +37,6 @@ import com.google.inject.ImplementedBy;
  * The producer sender is responsible for sending producer specific events and
  * transmitting asset and support asset files to the Clay Tablet platform.
  * 
- * @see AbsEventClient
  * @see ProducerSenderImpl
  * @see ApproveAssetTask
  * @see CancelAsset
@@ -49,7 +48,7 @@ import com.google.inject.ImplementedBy;
  * @see SubmitProject
  */
 @ImplementedBy(ProducerSenderImpl.class)
-public interface ProducerSender extends AbsEventClient {
+public interface ProducerSender {
 
 	/**
 	 * Sends an approve asset task event, and uploads it's associated file if a

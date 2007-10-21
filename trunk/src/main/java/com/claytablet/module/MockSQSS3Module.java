@@ -1,8 +1,8 @@
 package com.claytablet.module;
 
-import com.claytablet.service.event.AccountManager;
+import com.claytablet.service.event.EventListener;
 import com.claytablet.service.event.ProducerReceiver;
-import com.claytablet.service.event.impl.AccountManagerImpl;
+import com.claytablet.service.event.impl.ProducerEventListenerImpl;
 import com.claytablet.service.event.mock.ProducerReceiverMock;
 
 /**
@@ -26,8 +26,9 @@ import com.claytablet.service.event.mock.ProducerReceiverMock;
  * @author <a href="mailto:drapin@clay-tablet.com">Dave Rapin</a>
  * 
  * <p>
- * Mock module for Guice configuration. Extends the SQSS3Module and overrides
- * the default receiver binding for a mock implementation.
+ * Mock module for Guice configuration. Extends the SQSS3Module and specifies
+ * the event listener binding and overrides the default receiver binding for a
+ * mock implementation.
  */
 public class MockSQSS3Module extends SQSS3Module {
 
@@ -35,8 +36,7 @@ public class MockSQSS3Module extends SQSS3Module {
 
 		super.configure();
 
-		// specify account manager binding
-		bind(AccountManager.class).to(AccountManagerImpl.class);
+		bind(EventListener.class).to(ProducerEventListenerImpl.class);
 
 		// override the default receiver binding
 		bind(ProducerReceiver.class).to(ProducerReceiverMock.class);

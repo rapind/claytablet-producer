@@ -7,9 +7,9 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.claytablet.app.ProducerEventCron;
-import com.claytablet.factory.QueueSubscriberServiceFactory;
 import com.claytablet.model.event.AbsEvent;
+import com.claytablet.model.event.Account;
+import com.claytablet.provider.SourceAccountProvider;
 import com.claytablet.queue.model.Message;
 import com.claytablet.queue.service.QueueServiceException;
 import com.claytablet.queue.service.QueueSubscriberService;
@@ -42,7 +42,8 @@ import com.google.inject.Singleton;
  * <p>
  * This is the default implementation for the producer event listener.
  * 
- * @see ProducerEventCron
+ * @see ClientAccountProvider
+ * @see QueueSubscriberService
  * @see ProducerReceiver
  */
 @Singleton
@@ -50,20 +51,23 @@ public class ProducerEventListenerImpl implements EventListener {
 
 	private final Log log = LogFactory.getLog(getClass());
 
-	private QueueSubscriberServiceFactory queueSubscriberServiceFactory;
+	private SourceAccountProvider sap;
+
+	private QueueSubscriberService queueSubscriberService;
 
 	private ProducerReceiver receiver;
 
 	/**
-	 * @param queueSubscriberServiceFactory
-	 * @param platformReceiver
-	 * @param platformSender
+	 * @param sap
+	 * @param queueSubscriberService
+	 * @param producerReceiver
 	 */
 	@Inject
-	public ProducerEventListenerImpl(
-			QueueSubscriberServiceFactory queueSubscriberServiceFactory,
+	public ProducerEventListenerImpl(SourceAccountProvider sap,
+			QueueSubscriberService queueSubscriberService,
 			ProducerReceiver producerReceiver) {
-		this.queueSubscriberServiceFactory = queueSubscriberServiceFactory;
+		this.sap = sap;
+		this.queueSubscriberService = queueSubscriberService;
 		this.receiver = producerReceiver;
 	}
 
@@ -73,16 +77,21 @@ public class ProducerEventListenerImpl implements EventListener {
 	 * @see com.claytablet.app.EventListener#checkMessages(java.lang.String,
 	 *      int)
 	 */
-	public void checkMessages(String accountId, int maxMessages)
-			throws EventServiceException, QueueServiceException {
+	public void checkMessages(int maxMessages) throws EventServiceException,
+			QueueServiceException {
 
-		// retrieve the initialized queue subscriber service from the
-		// factory
-		QueueSubscriberService subscriber = queueSubscriberServiceFactory
-				.getQueueSubscriberService(accountId);
+		log.debug("Retrieve the client account from the provider.");
+		Account clientAccount = sap.get();
+
+		log
+				.debug("Initialize the subscriber service with the credentials and endpoint.");
+		queueSubscriberService.setPublicKey(clientAccount.getPublicKey());
+		queueSubscriberService.setPrivateKey(clientAccount.getPrivateKey());
+		queueSubscriberService.setEndpoint(clientAccount.getQueueEndpoint());
 
 		log.debug("Check for messages.");
-		List<Message> messages = subscriber.receiveMessages(maxMessages);
+		List<Message> messages = queueSubscriberService
+				.receiveMessages(maxMessages);
 
 		log.debug("Found " + messages.size() + " messages.");
 
@@ -94,16 +103,24 @@ public class ProducerEventListenerImpl implements EventListener {
 				log.debug(message.getBody());
 
 				try {
-					handleMessage(accountId, message);
+					handleMessage(message);
 
 					// If any exceptions occured then the message will
 					// remain on the queue. Only if we reach this point will
 					// the message be removed.
 					log.debug("Done with the message. Delete it.");
-					subscriber.deleteMessage(message);
+					queueSubscriberService.deleteMessage(message);
 
 				} catch (Exception e) {
 					log.error(e.getMessage());
+				}
+
+				log.debug("Sleep for 5 seconds.");
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 
@@ -112,16 +129,20 @@ public class ProducerEventListenerImpl implements EventListener {
 	}
 
 	/**
-	 * @param accountId
+	 * Handles processing of an individual messages. The message is deserialized
+	 * and reflection is used to call the appropriate method in the
+	 * ProducerReceiver.
+	 * 
 	 * @param message
+	 *            Required parameter spcifying the message to handle.
 	 * @throws EventServiceException
 	 * @throws QueueServiceException
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	private void handleMessage(String accountId, Message message)
-			throws EventServiceException, QueueServiceException,
-			IllegalArgumentException, IllegalAccessException {
+	private void handleMessage(Message message) throws EventServiceException,
+			QueueServiceException, IllegalArgumentException,
+			IllegalAccessException {
 
 		log.debug("Transform the message payload to an event.");
 		AbsEvent event = AbsEvent.fromXml(message.getBody());
@@ -143,10 +164,9 @@ public class ProducerEventListenerImpl implements EventListener {
 				try {
 					method.invoke(receiver, invokeParms[0]);
 				} catch (InvocationTargetException e2) {
-					// if an exception occurs during the
-					// invocation then we want to send a
-					// processing error back to the source
-					// account's queue
+					// If an invocation exception occurs during the call then we
+					// will simply log it and continue. The offending message
+					// will be deleted.
 					log.debug("An error occured during event processing: "
 							+ e2.getCause().getMessage());
 

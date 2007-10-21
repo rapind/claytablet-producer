@@ -36,14 +36,13 @@ import com.google.inject.ImplementedBy;
  * to native CMS systems etc.
  * 
  * <p>
- * @see AbsEventClient
  * @see ProducerReceiverImpl
  * @see CompleteProject
  * @see ProcessingError
  * @see ReviewAssetTask
  */
 @ImplementedBy(ProducerReceiverImpl.class)
-public interface ProducerReceiver extends AbsEventClient {
+public interface ProducerReceiver {
 
 	/**
 	 * Receives a completed project event.

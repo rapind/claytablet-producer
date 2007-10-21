@@ -1,7 +1,7 @@
 package com.claytablet.module;
 
-import com.claytablet.service.event.AccountManager;
-import com.claytablet.service.event.impl.AccountManagerImpl;
+import com.claytablet.service.event.EventListener;
+import com.claytablet.service.event.impl.ProducerEventListenerImpl;
 
 /**
  * Copyright 2007 Clay Tablet Technologies Inc.
@@ -25,7 +25,7 @@ import com.claytablet.service.event.impl.AccountManagerImpl;
  * 
  * <p>
  * Default module for Guice configuration. Extends the SQSS3Module and specifies
- * the account manager binding.
+ * the event listener binding.
  */
 public class DefaultSQSS3Module extends SQSS3Module {
 
@@ -33,8 +33,7 @@ public class DefaultSQSS3Module extends SQSS3Module {
 
 		super.configure();
 
-		// specify account manager binding
-		bind(AccountManager.class).to(AccountManagerImpl.class);
+		bind(EventListener.class).to(ProducerEventListenerImpl.class);
 
 	}
 }

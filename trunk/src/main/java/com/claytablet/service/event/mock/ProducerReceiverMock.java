@@ -1,16 +1,19 @@
 package com.claytablet.service.event.mock;
 
-import com.claytablet.factory.QueuePublisherServiceFactory;
-import com.claytablet.factory.StorageClientServiceFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.claytablet.model.event.Account;
 import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
 import com.claytablet.model.event.platform.ReviewAssetTask;
 import com.claytablet.model.event.producer.ApproveAssetTask;
+import com.claytablet.provider.SourceAccountProvider;
 import com.claytablet.queue.service.QueueServiceException;
 import com.claytablet.service.event.EventServiceException;
 import com.claytablet.service.event.ProducerReceiver;
 import com.claytablet.service.event.ProducerSender;
-import com.claytablet.service.event.impl.AbsEventClientImpl;
+import com.claytablet.storage.service.StorageClientService;
 import com.claytablet.storage.service.StorageServiceException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -40,19 +43,17 @@ import com.google.inject.Singleton;
  * 
  * <p>
  * @see ProducerReceiver
- * @see AbsEventClientImpl
  */
 @Singleton
-public class ProducerReceiverMock extends AbsEventClientImpl implements
-		ProducerReceiver {
+public class ProducerReceiverMock implements ProducerReceiver {
 
-	// we're going to automatically respond to messages
+	private final Log log = LogFactory.getLog(getClass());
+
+	private SourceAccountProvider sap;
+
+	private StorageClientService storageClientService;
+
 	private ProducerSender producerSender;
-
-	private static final String PLATFORM_ACCOUNT_ID = "ctt-platform";
-
-	// TODO - replace this with your assigned account identifier
-	private static final String PRODUCER_ACCOUNT_ID = "ctt-producer-cms1";
 
 	/**
 	 * Constructor for dependency injection.
@@ -62,12 +63,11 @@ public class ProducerReceiverMock extends AbsEventClientImpl implements
 	 * @param producerSender
 	 */
 	@Inject
-	public ProducerReceiverMock(
-			QueuePublisherServiceFactory queuePublisherServiceFactory,
-			StorageClientServiceFactory storageClientServiceFactory,
+	public ProducerReceiverMock(SourceAccountProvider sap,
+			StorageClientService storageClientService,
 			ProducerSender producerSender) {
-		this.queuePublisherServiceFactory = queuePublisherServiceFactory;
-		this.storageClientServiceFactory = storageClientServiceFactory;
+		this.sap = sap;
+		this.storageClientService = storageClientService;
 		this.producerSender = producerSender;
 	}
 
@@ -111,11 +111,19 @@ public class ProducerReceiverMock extends AbsEventClientImpl implements
 
 		log.debug(event.getClass().getSimpleName() + " event received.");
 
+		// retrieve the client account from the provider.
+		Account clientAccount = sap.get();
+
+		log.debug("Initialize the storage client service.");
+		storageClientService.setPublicKey(clientAccount.getPublicKey());
+		storageClientService.setPrivateKey(clientAccount.getPrivateKey());
+		storageClientService.setStorageBucket(clientAccount.getStorageBucket());
+
 		log.debug("Download the latest asset task revision for: "
 				+ event.getAssetTaskId());
-		String downloadPath = super.downloadLatestAssetTaskVersion(event
-				.getTargetAccountId(), event.getAssetTaskId(),
-				"./files/received/");
+		String downloadPath = storageClientService
+				.downloadLatestAssetTaskVersion(event.getAssetTaskId(),
+						"./files/received/");
 
 		log.debug("Downloaded an asset task version file to: " + downloadPath);
 
@@ -124,8 +132,6 @@ public class ProducerReceiverMock extends AbsEventClientImpl implements
 		ApproveAssetTask event2 = new ApproveAssetTask();
 		event2.setAssetTaskId(event.getAssetTaskId());
 		event2.setReviewNote("Test review note.");
-		event2.setSourceAccountId(PRODUCER_ACCOUNT_ID);
-		event2.setTargetAccountId(PLATFORM_ACCOUNT_ID);
 
 		try {
 			producerSender.sendEvent(event2, downloadPath);
