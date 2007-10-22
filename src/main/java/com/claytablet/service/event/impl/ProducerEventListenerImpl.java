@@ -42,9 +42,11 @@ import com.google.inject.Singleton;
  * <p>
  * This is the producer implementation of the event listener.
  * 
+ * @see EventListener
  * @see SourceAccountProvider
  * @see QueueSubscriberService
  * @see ProducerReceiver
+ * @see Message
  */
 @Singleton
 public class ProducerEventListenerImpl implements EventListener {
