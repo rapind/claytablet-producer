@@ -40,9 +40,9 @@ import com.google.inject.Singleton;
  * @author <a href="mailto:drapin@clay-tablet.com">Dave Rapin</a>
  * 
  * <p>
- * This is the default implementation for the producer event listener.
+ * This is the producer implementation of the event listener.
  * 
- * @see ClientAccountProvider
+ * @see SourceAccountProvider
  * @see QueueSubscriberService
  * @see ProducerReceiver
  */
@@ -58,6 +58,8 @@ public class ProducerEventListenerImpl implements EventListener {
 	private ProducerReceiver receiver;
 
 	/**
+	 * Constructor for dependency injection.
+	 * 
 	 * @param sap
 	 * @param queueSubscriberService
 	 * @param producerReceiver
@@ -80,14 +82,14 @@ public class ProducerEventListenerImpl implements EventListener {
 	public void checkMessages(int maxMessages) throws EventServiceException,
 			QueueServiceException {
 
-		log.debug("Retrieve the client account from the provider.");
-		Account clientAccount = sap.get();
+		log.debug("Retrieve the source account from the provider.");
+		Account sourceAccount = sap.get();
 
 		log
 				.debug("Initialize the subscriber service with the credentials and endpoint.");
-		queueSubscriberService.setPublicKey(clientAccount.getPublicKey());
-		queueSubscriberService.setPrivateKey(clientAccount.getPrivateKey());
-		queueSubscriberService.setEndpoint(clientAccount.getQueueEndpoint());
+		queueSubscriberService.setPublicKey(sourceAccount.getPublicKey());
+		queueSubscriberService.setPrivateKey(sourceAccount.getPrivateKey());
+		queueSubscriberService.setEndpoint(sourceAccount.getQueueEndpoint());
 
 		log.debug("Check for messages.");
 		List<Message> messages = queueSubscriberService

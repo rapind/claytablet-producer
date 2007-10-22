@@ -306,14 +306,14 @@ public class ProducerSenderImpl implements ProducerSender {
 			QueueServiceException {
 
 		log
-				.debug("Retrieve the client and platform accounts from the providers.");
-		Account clientAccount = sap.get();
-		Account platformAccount = tap.get();
+				.debug("Retrieve the source and target accounts from the providers.");
+		Account sourceAccount = sap.get();
+		Account targetAccount = tap.get();
 
 		log
 				.debug("Populate the source and target account identifiers in the event.");
-		event.setSourceAccountId(clientAccount.getId());
-		event.setTargetAccountId(platformAccount.getId());
+		event.setSourceAccountId(sourceAccount.getId());
+		event.setTargetAccountId(targetAccount.getId());
 
 		log.debug("Run event field validation.");
 		String validate = event.validate();
@@ -325,9 +325,9 @@ public class ProducerSenderImpl implements ProducerSender {
 		Message message = new Message(null, AbsEvent.toXml(event));
 
 		log.debug("Initialize the queue publisher.");
-		queuePublisherService.setPublicKey(clientAccount.getPublicKey());
-		queuePublisherService.setPrivateKey(clientAccount.getPrivateKey());
-		queuePublisherService.setEndpoint(platformAccount.getQueueEndpoint());
+		queuePublisherService.setPublicKey(sourceAccount.getPublicKey());
+		queuePublisherService.setPrivateKey(sourceAccount.getPrivateKey());
+		queuePublisherService.setEndpoint(targetAccount.getQueueEndpoint());
 
 		log.debug("Send the event message.");
 		queuePublisherService.sendMessage(message);

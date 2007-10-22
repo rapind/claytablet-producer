@@ -113,13 +113,13 @@ public class ProducerReceiverImpl implements ProducerReceiver {
 
 		log.debug(event.getClass().getSimpleName() + " event received.");
 
-		// retrieve the client account from the provider.
-		Account clientAccount = sap.get();
+		// retrieve the source account from the provider.
+		Account sourceAccount = sap.get();
 
 		log.debug("Initialize the storage client service.");
-		storageClientService.setPublicKey(clientAccount.getPublicKey());
-		storageClientService.setPrivateKey(clientAccount.getPrivateKey());
-		storageClientService.setStorageBucket(clientAccount.getStorageBucket());
+		storageClientService.setPublicKey(sourceAccount.getPublicKey());
+		storageClientService.setPrivateKey(sourceAccount.getPrivateKey());
+		storageClientService.setStorageBucket(sourceAccount.getStorageBucket());
 
 		log.debug("Download the latest asset task revision for: "
 				+ event.getAssetTaskId());
