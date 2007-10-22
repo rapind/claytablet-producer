@@ -40,7 +40,11 @@ import com.google.inject.Singleton;
  * 
  * <p>
  * @see ProducerReceiver
- * @see AbsEventClientImpl
+ * @see SourceAccountProvider
+ * @see StorageClientService
+ * @see CompletedProject
+ * @see ProcessingError
+ * @see ReviewAssetTask
  */
 @Singleton
 public class ProducerReceiverImpl implements ProducerReceiver {

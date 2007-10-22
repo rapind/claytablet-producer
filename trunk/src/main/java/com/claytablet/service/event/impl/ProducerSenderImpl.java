@@ -53,6 +53,15 @@ import com.google.inject.Singleton;
  * @see TargetAccountProvider
  * @see QueuePublisherService
  * @see StorageClientService
+ * @see ApproveAssetTask
+ * @see CancelAsset
+ * @see CancelProject
+ * @see CancelSupportAsset
+ * @see CreateAsset
+ * @see CreateSupportAsset
+ * @see RejectAssetTask
+ * @see SubmitProject
+ * @see AbsEvent
  */
 @Singleton
 public class ProducerSenderImpl implements ProducerSender {
