@@ -49,8 +49,8 @@ import com.google.inject.Singleton;
  * This is the default implementation for the producer sender.
  * 
  * @see ProducerSender
- * @see ClientAccountProvider
- * @see PlatformAccountProvider
+ * @see SourceAccountProvider
+ * @see TargetAccountProvider
  * @see QueuePublisherService
  * @see StorageClientService
  */
