@@ -40,7 +40,8 @@ import com.google.inject.Singleton;
  * 
  * <p>
  * @see ProducerReceiver
- * @see AbsEventClientImpl
+ * @see SourceAccountProvider
+ * @see StorageClientService
  */
 @Singleton
 public class ProducerReceiverDrupal implements ProducerReceiver {

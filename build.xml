@@ -73,6 +73,14 @@
 				<include name="com/claytablet/**"/>
 			</packageset>
 
+			<packageset dir="../queue/src/main/java" defaultexcludes="yes">
+				<include name="com/claytablet/**"/>
+			</packageset>
+
+			<packageset dir="../storage/src/main/java" defaultexcludes="yes">
+				<include name="com/claytablet/**"/>
+			</packageset>
+
 			<classpath refid="master.classpath"/>
 			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
 		</javadoc>

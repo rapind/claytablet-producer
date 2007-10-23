@@ -1,5 +1,5 @@
 <com.claytablet.model.event.Account>
-  <id>ctt-platform-staging</id>
+  <id>ctt-platform-dev</id>
   <createDate>2007-09-29 10:08:07.421 EDT</createDate>
   <producerId></producerId>
   <active>true</active>
@@ -7,7 +7,7 @@
   <publicKey></publicKey>
   <privateKey></privateKey>
   <queueType>SQS</queueType>
-  <queueEndpoint>https://queue.amazonaws.com:443/AIYT74T0UF7T3/ctt-platform-staging</queueEndpoint>
+  <queueEndpoint>https://queue.amazonaws.com:443/AIYT74T0UF7T3/ctt-platform-dev</queueEndpoint>
   <storageType>S3</storageType>
   <storageBucket></storageBucket>
   <localSourceDirectory></localSourceDirectory>

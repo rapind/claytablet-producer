@@ -58,8 +58,8 @@ public class ProducerReceiverMock implements ProducerReceiver {
 	/**
 	 * Constructor for dependency injection.
 	 * 
-	 * @param queuePublisherServiceFactory
-	 * @param storageClientServiceFactory
+	 * @param sap
+	 * @param storageClientService
 	 * @param producerSender
 	 */
 	@Inject
