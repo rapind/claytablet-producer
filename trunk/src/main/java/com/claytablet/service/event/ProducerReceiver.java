@@ -37,7 +37,7 @@ import com.google.inject.ImplementedBy;
  * 
  * <p>
  * @see ProducerReceiverImpl
- * @see CompleteProject
+ * @see CompletedProject
  * @see ProcessingError
  * @see ReviewAssetTask
  */
