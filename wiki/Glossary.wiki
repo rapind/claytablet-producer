@@ -1,0 +1,29 @@
+#summary Glossary of Terms Related to Clay Tablet 2.0 and the translation process
+
+= Introduction =
+
+ This page is a glossary of terms related to Clay Tablet 2.0 and the translation process in general
+
+== Clay Tablet Specific Terms ==
+
+*Producer:* A client or entity who is responsible for one or more connected producer systems (Producer Accounts)
+
+*Producer Accounts:* A specific connected system on the source side (CMS, ECMS, Data Feed, Etc.)
+
+*Provider:* A client or entity who is responsible for one or more connected provider systems (Provider Accounts)
+
+*Provider Accounts:* A specific connected system on the destination side (TMS, GMS, SBMT, etc.)
+
+== General Terms ==
+
+*CMS:* [http://en.wikipedia.org/wiki/Content_management_system Content Management System]
+
+*ECMS:* [http://en.wikipedia.org/wiki/Enterprise_Content_Management Enterprise Content Management System]
+
+*MT:* [http://en.wikipedia.org/wiki/Machine_Translation Machine Translation]
+
+*SBMT:* [http://en.wikipedia.org/wiki/Statistical_machine_translation Statistical-based Machine Translation]
+
+*RBMT:* Rules-based Machine Translation
+
+*WCMS:* [http://en.wikipedia.org/wiki/Web_content_management_system Web Content Management System]
