@@ -37,4 +37,4 @@
 
  The connected system interacts with these message queues through REST-based (SOAP also supported) web service calls. *(2)* 
 
- Outgoing events are transmitted to Clay Tablet’s platform message queue *(3)* and each connected system has their own dedicated inbound message queue *(4)* for receiving events fromm Clay Tablet.
+ Outgoing events are transmitted to Clay Tablet’s platform message queue *(3)* and each connected system has their own dedicated inbound message queue *(4)* for receiving events from the Clay Tablet platform.
