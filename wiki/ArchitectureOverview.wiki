@@ -1,6 +1,6 @@
 #summary High-level overview of the Clay Tablet 2.0 Architecture
 
-[http://www.flickr.com/photos/rycoleman/2037232863/ http://farm3.static.flickr.com/2391/2037232863_6b6144869f_o.jpg] 
+[http://www.flickr.com/photos/rycoleman/2037232863/ http://farm3.static.flickr.com/2391/2037232863_f21b1d90b1.jpg] 
 
 = Architecture Overview =
 
