@@ -1,12 +1,14 @@
 #summary High-level overview of the Clay Tablet 2.0 Architecture
 
-*DRAFT*
+[http://www.flickr.com/photos/rycoleman/2037232863/ http://farm3.static.flickr.com/2391/2037232863_6b6144869f_o.jpg] 
 
-= Introduction =
+= Architecture Overview =
+
+== Introduction ==
 
 This page outlines the high-level architecture of Clay Tablet 2.0.
 
-= High-Level Architecture =
+== High-Level Architecture ==
 
 [http://www.flickr.com/photos/rycoleman/2037930856/ http://farm3.static.flickr.com/2307/2037930856_3c07191100_o.jpg]
 
@@ -18,7 +20,7 @@ Clay Tablet maintains a centralized Platform application that consists of an Inb
 
 Each unique connected system also has its own dedicated message queue and storage account through which the Clay Tablet Platform communicates with it.
 
-= Hierarchy =
+=== Hierarchy ===
 
 [http://www.flickr.com/photos/rycoleman/2037982168/ http://farm3.static.flickr.com/2283/2037982168_95f921c5b4_o.jpg]
 
@@ -26,7 +28,7 @@ A "Producer" is a single client or entity responsible for one or more connected 
 
 Each connected system has a unique *producer account* which is associated with a specific producer. 
 
-= Anatomy of a Connection =
+=== Anatomy of a Connection ===
 
 [http://www.flickr.com/photos/rycoleman/2037204769/ http://farm3.static.flickr.com/2385/2037204769_29d6a48e6f_o.jpg]
 
