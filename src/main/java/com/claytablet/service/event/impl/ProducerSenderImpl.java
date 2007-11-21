@@ -318,6 +318,7 @@ public class ProducerSenderImpl implements ProducerSender {
 				.debug("Retrieve the source and target accounts from the providers.");
 		Account sourceAccount = sap.get();
 		Account targetAccount = tap.get();
+		log.debug("Sending to: " + targetAccount.getQueueEndpoint());
 
 		log
 				.debug("Populate the source and target account identifiers in the event.");
@@ -340,6 +341,7 @@ public class ProducerSenderImpl implements ProducerSender {
 
 		log.debug("Send the event message.");
 		queuePublisherService.sendMessage(message);
+		log.debug("Event sent.");
 
 	}
 
