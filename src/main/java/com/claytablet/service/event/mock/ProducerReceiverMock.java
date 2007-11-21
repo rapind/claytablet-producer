@@ -7,6 +7,7 @@ import com.claytablet.model.event.Account;
 import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
 import com.claytablet.model.event.platform.ReviewAssetTask;
+import com.claytablet.model.event.platform.UpdatedAssetTaskState;
 import com.claytablet.model.event.producer.ApproveAssetTask;
 import com.claytablet.provider.SourceAccountProvider;
 import com.claytablet.queue.service.QueueServiceException;
@@ -69,6 +70,25 @@ public class ProducerReceiverMock implements ProducerReceiver {
 		this.sap = sap;
 		this.storageClientService = storageClientService;
 		this.producerSender = producerSender;
+	}
+
+	/**
+	 * Initializes the storage client with the source account values
+	 * (credentials and defaults).
+	 */
+	private void initStorageClient() {
+
+		log.debug("Retrieve the source account from the provider.");
+		Account sourceAccount = sap.get();
+
+		log.debug("Initialize the storage client service.");
+		storageClientService.setPublicKey(sourceAccount.getPublicKey());
+		storageClientService.setPrivateKey(sourceAccount.getPrivateKey());
+		storageClientService.setStorageBucket(sourceAccount.getStorageBucket());
+		storageClientService.setDefaultLocalSourceDirectory(sourceAccount
+				.getLocalSourceDirectory());
+		storageClientService.setDefaultLocalTargetDirectory(sourceAccount
+				.getLocalTargetDirectory());
 	}
 
 	/*
@@ -136,22 +156,15 @@ public class ProducerReceiverMock implements ProducerReceiver {
 
 	}
 
-	/**
-	 * Initializes the storage client with the source account values
-	 * (credentials and defaults).
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.claytablet.service.event.ProducerReceiver#receiveEvent(com.claytablet.model.event.platform.UpdatedAssetTaskState)
 	 */
-	private void initStorageClient() {
+	public void receiveEvent(UpdatedAssetTaskState event) {
+		log.debug(event.getClass().getSimpleName() + " event received.");
 
-		log.debug("Retrieve the source account from the provider.");
-		Account sourceAccount = sap.get();
+		// do nothing
 
-		log.debug("Initialize the storage client service.");
-		storageClientService.setPublicKey(sourceAccount.getPublicKey());
-		storageClientService.setPrivateKey(sourceAccount.getPrivateKey());
-		storageClientService.setStorageBucket(sourceAccount.getStorageBucket());
-		storageClientService.setDefaultLocalSourceDirectory(sourceAccount
-				.getLocalSourceDirectory());
-		storageClientService.setDefaultLocalTargetDirectory(sourceAccount
-				.getLocalTargetDirectory());
 	}
 }

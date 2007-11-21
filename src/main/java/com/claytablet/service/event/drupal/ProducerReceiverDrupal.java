@@ -7,6 +7,7 @@ import com.claytablet.model.event.Account;
 import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
 import com.claytablet.model.event.platform.ReviewAssetTask;
+import com.claytablet.model.event.platform.UpdatedAssetTaskState;
 import com.claytablet.provider.SourceAccountProvider;
 import com.claytablet.service.event.EventServiceException;
 import com.claytablet.service.event.ProducerReceiver;
@@ -114,13 +115,8 @@ public class ProducerReceiverDrupal implements ProducerReceiver {
 
 		log.debug(event.getClass().getSimpleName() + " event received.");
 
-		// retrieve the client account from the provider.
-		Account clientAccount = sap.get();
-
-		log.debug("Initialize the storage client service.");
-		storageClientService.setPublicKey(clientAccount.getPublicKey());
-		storageClientService.setPrivateKey(clientAccount.getPrivateKey());
-		storageClientService.setStorageBucket(clientAccount.getStorageBucket());
+		// initialize the storage client for the source account.
+		initStorageClient();
 
 		log.debug("Download the latest asset task revision for: "
 				+ event.getAssetTaskId());
@@ -136,4 +132,40 @@ public class ProducerReceiverDrupal implements ProducerReceiver {
 		// If an exception is thrown the event will remain on the queue.
 
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.claytablet.service.event.ProducerReceiver#receiveEvent(com.claytablet.model.event.platform.UpdatedAssetTaskState)
+	 */
+	public void receiveEvent(UpdatedAssetTaskState event) {
+
+		log.debug(event.getClass().getSimpleName() + " event received.");
+
+		// TODO - producer integration code goes here.
+		// I.e. update the translated asset state in the CMS.
+
+		// If an exception is thrown the event will remain on the queue.
+
+	}
+
+	/**
+	 * Initializes the storage client with the source account values
+	 * (credentials and defaults).
+	 */
+	private void initStorageClient() {
+
+		log.debug("Retrieve the source account from the provider.");
+		Account sourceAccount = sap.get();
+
+		log.debug("Initialize the storage client service.");
+		storageClientService.setPublicKey(sourceAccount.getPublicKey());
+		storageClientService.setPrivateKey(sourceAccount.getPrivateKey());
+		storageClientService.setStorageBucket(sourceAccount.getStorageBucket());
+		storageClientService.setDefaultLocalSourceDirectory(sourceAccount
+				.getLocalSourceDirectory());
+		storageClientService.setDefaultLocalTargetDirectory(sourceAccount
+				.getLocalTargetDirectory());
+	}
+
 }

@@ -3,6 +3,7 @@ package com.claytablet.service.event;
 import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
 import com.claytablet.model.event.platform.ReviewAssetTask;
+import com.claytablet.model.event.platform.UpdatedAssetTaskState;
 import com.claytablet.service.event.impl.ProducerReceiverImpl;
 import com.claytablet.storage.service.StorageServiceException;
 import com.google.inject.ImplementedBy;
@@ -72,6 +73,19 @@ public interface ProducerReceiver {
 	 *            The event to process.
 	 */
 	public void receiveEvent(ProcessingError event);
+
+	/**
+	 * Receives an updated asset task state event.
+	 * 
+	 * <p>
+	 * This is launched when a provider has updated the native state and / or
+	 * estimated time of arrival for an asset task. This is for informational
+	 * purposes only and it is not necessary that providers launch this event.
+	 * 
+	 * @param event
+	 *            The event to process.
+	 */
+	public void receiveEvent(UpdatedAssetTaskState event);
 
 	/**
 	 * Receives a review asset task event.
