@@ -48,7 +48,7 @@ public abstract class AbsProducerReceiverTest extends TestCase {
 
 	protected ProducerReceiver receiver;
 
-	protected final String PLATFORM_ACCOUNT_ID = "ctt-platform";
+	protected final String PLATFORM_ACCOUNT_ID = "ctt-platform-staging";
 
 	// TODO - replace this with your assigned account identifier
 	protected final String PRODUCER_ACCOUNT_ID = "ctt-producer-cms1";
@@ -105,14 +105,14 @@ public abstract class AbsProducerReceiverTest extends TestCase {
 	}
 
 	/**
-	 * Test for CompleteProject event reception.
+	 * Test for CompletedProject event reception.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testCompleteProject() throws Exception {
+	public void testCompletedProject() throws Exception {
 
-		log.debug("Create a mock CompleteProject event.");
+		log.debug("Create a mock CompletedProject event.");
 		CompletedProject event = new CompletedProject();
 		event.setSourceAccountId(PLATFORM_ACCOUNT_ID);
 		event.setTargetAccountId(PRODUCER_ACCOUNT_ID);

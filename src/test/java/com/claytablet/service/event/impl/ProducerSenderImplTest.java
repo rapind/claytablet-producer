@@ -3,7 +3,7 @@ package com.claytablet.service.event.impl;
 import org.junit.After;
 import org.junit.Before;
 
-import com.claytablet.module.SQSS3Module;
+import com.claytablet.module.ProducerTestModule;
 import com.claytablet.service.event.AbsProducerSenderTest;
 import com.google.inject.Guice;
 
@@ -51,7 +51,7 @@ public class ProducerSenderImplTest extends AbsProducerSenderTest {
 		log.debug("SETUP: ");
 
 		log.debug("Inject the event sender implementation.");
-		sender = Guice.createInjector(new SQSS3Module()).getInstance(
+		sender = Guice.createInjector(new ProducerTestModule()).getInstance(
 				ProducerSenderImpl.class);
 
 		// call the super to finalize setup
