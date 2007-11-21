@@ -3,7 +3,7 @@ package com.claytablet.service.event.impl;
 import org.junit.After;
 import org.junit.Before;
 
-import com.claytablet.module.SQSS3Module;
+import com.claytablet.module.ProducerTestModule;
 import com.claytablet.service.event.AbsProducerReceiverTest;
 import com.google.inject.Guice;
 
@@ -50,7 +50,7 @@ public class ProducerReceiverImplTest extends AbsProducerReceiverTest {
 		log.debug("SETUP: ");
 
 		log.debug("Inject the event receiver implementation.");
-		receiver = Guice.createInjector(new SQSS3Module()).getInstance(
+		receiver = Guice.createInjector(new ProducerTestModule()).getInstance(
 				ProducerReceiverImpl.class);
 
 		// call the super to finalize setup
