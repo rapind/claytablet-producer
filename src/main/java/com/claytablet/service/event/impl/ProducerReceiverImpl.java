@@ -127,9 +127,9 @@ public class ProducerReceiverImpl implements ProducerReceiver {
 
 		log.debug("Download the latest asset task revision for: "
 				+ event.getAssetTaskId());
+		// we're using the default download path set in the account's source.xml
 		String downloadPath = storageClientService
-				.downloadLatestAssetTaskVersion(event.getAssetTaskId(),
-						"./files/received/");
+				.downloadLatestAssetTaskVersion(event.getAssetTaskId(), null);
 
 		log.debug("Downloaded an asset task version file to: " + downloadPath);
 
