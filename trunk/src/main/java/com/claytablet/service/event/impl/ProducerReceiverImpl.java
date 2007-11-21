@@ -7,6 +7,7 @@ import com.claytablet.model.event.Account;
 import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
 import com.claytablet.model.event.platform.ReviewAssetTask;
+import com.claytablet.model.event.platform.UpdatedAssetTaskState;
 import com.claytablet.provider.SourceAccountProvider;
 import com.claytablet.service.event.EventServiceException;
 import com.claytablet.service.event.ProducerReceiver;
@@ -130,6 +131,22 @@ public class ProducerReceiverImpl implements ProducerReceiver {
 
 		// TODO - producer integration code goes here.
 		// I.e. send the asset to the CMS and mark it for review.
+
+		// If an exception is thrown the event will remain on the queue.
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.claytablet.service.event.ProducerReceiver#receiveEvent(com.claytablet.model.event.platform.UpdatedAssetTaskState)
+	 */
+	public void receiveEvent(UpdatedAssetTaskState event) {
+
+		log.debug(event.getClass().getSimpleName() + " event received.");
+
+		// TODO - producer integration code goes here.
+		// I.e. update the translated asset state in the CMS.
 
 		// If an exception is thrown the event will remain on the queue.
 
