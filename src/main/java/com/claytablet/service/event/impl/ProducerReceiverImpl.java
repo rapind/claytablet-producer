@@ -124,6 +124,10 @@ public class ProducerReceiverImpl implements ProducerReceiver {
 		storageClientService.setPublicKey(sourceAccount.getPublicKey());
 		storageClientService.setPrivateKey(sourceAccount.getPrivateKey());
 		storageClientService.setStorageBucket(sourceAccount.getStorageBucket());
+		storageClientService.setDefaultLocalSourceDirectory(sourceAccount
+				.getLocalSourceDirectory());
+		storageClientService.setDefaultLocalTargetDirectory(sourceAccount
+				.getLocalTargetDirectory());
 
 		log.debug("Download the latest asset task revision for: "
 				+ event.getAssetTaskId());
