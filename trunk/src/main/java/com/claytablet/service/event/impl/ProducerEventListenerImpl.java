@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.claytablet.model.event.AbsEvent;
 import com.claytablet.model.event.Account;
+import com.claytablet.model.event.IEvent;
 import com.claytablet.provider.SourceAccountProvider;
 import com.claytablet.queue.model.Message;
 import com.claytablet.queue.service.QueueServiceException;
@@ -149,7 +150,7 @@ public class ProducerEventListenerImpl implements EventListener {
 			IllegalAccessException {
 
 		log.debug("Transform the message payload to an event.");
-		AbsEvent event = AbsEvent.fromXml(message.getBody());
+		IEvent event = AbsEvent.fromXml(message.getBody());
 
 		log
 				.debug("Call the appropriate event receiver method via reflection for: "
