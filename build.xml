@@ -10,8 +10,12 @@
 	<property name="api.classes.dir" value="../api/target/classes" />
 	<property name="src.main.dir" value="src/main/java" />
 	<property name="src.main.resources.dir" value="src/main/resources" />
+	<property name="src.test.dir" value="src/test/java" />
+	<property name="src.test.resources.dir" value="src/test/resources" />
 	<property name="target.dir" value="target" />
 	<property name="target.compile.main.dir" value="target/classes" />
+	<property name="target.compile.test.dir" value="target/test-classes" />
+	<property name="target.reports.test.dir" value="target/test-reports" />
 	<property name="dist.dir" value="target/dist" />
 	<property name="doc.dir" value="target/api-docs" />
 
@@ -44,6 +48,24 @@
 			</fileset>
 		</copy>
 
+	</target>
+
+	<target name="compile-test" description="Compile test source tree java files.">
+		<mkdir dir="${target.compile.test.dir}" />
+		<javac destdir="${target.compile.test.dir}" source="1.5" target="1.5" debug="true" deprecation="false" optimize="false" failonerror="true">
+			<src path="${src.test.dir}" />
+			<classpath refid="master.classpath" />
+			<classpath>
+				<pathelement location="${target.compile.main.dir}"/>
+			</classpath>
+		</javac>
+		<!-- copy the resources to the test compile dir -->
+		<copy todir="${target.compile.test.dir}">
+			<fileset dir="${src.test.resources.dir}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="dist" depends="clean,compile" description="Clean, compile, jar">
@@ -120,5 +142,27 @@
 			</classpath>
 		</java>
 	</target>
+
+	<target name = "test" depends="compile, compile-test">
+
+		<delete dir="${target.reports.test.dir}" />
+		<mkdir dir="${target.reports.test.dir}" />
+
+		<junit printsummary = "yes" haltonfailure = "yes">
+		<classpath refid="master.classpath" />
+		<classpath>
+			<pathelement location="${target.compile.main.dir}"/>
+			<pathelement location="${target.compile.test.dir}"/>
+		</classpath>
+
+		<formatter type="plain"/>
+		<batchtest fork="yes" todir="${target.reports.test.dir}">
+			<fileset dir="${src.test.dir}">
+				<include name="**/impl/*Test*.java"/>
+			</fileset>
+		</batchtest>
+		</junit>
+	</target>
+
 
 </project>
