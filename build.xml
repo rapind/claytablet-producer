@@ -4,7 +4,7 @@
 
 	<!-- Name of project and version -->
 	<property name="proj.name" value="${ant.project.name}" />
-	<property name="proj.version" value="0.1" />
+	<property name="proj.version" value="1.0" />
 
 	<property name="lib.dir" value="lib" />
 	<property name="api.classes.dir" value="../api/target/classes" />
@@ -73,6 +73,18 @@
 		<mkdir dir="${dist.dir}" />
 
 		<jar jarfile="${dist.dir}/${proj.name}-${proj.version}.jar" compress="true" basedir="${target.compile.main.dir}" />
+
+		<copy todir="../producer-impl/producer-freeway/lib">
+			<fileset dir="${dist.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+
+		<copy todir="../producer-impl/producer-sitecore/lib">
+			<fileset dir="${dist.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
 
 	</target>
 
