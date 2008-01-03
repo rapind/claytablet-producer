@@ -113,14 +113,8 @@ public class ProducerSenderImpl implements ProducerSender {
 			event.setFileExt(sourceFilePath.substring(sourceFilePath
 					.lastIndexOf(".") + 1, sourceFilePath.length()));
 
-			// retrieve the client account from the provider.
-			Account clientAccount = sap.get();
-
-			log.debug("Initialize the storage client service.");
-			storageClientService.setPublicKey(clientAccount.getPublicKey());
-			storageClientService.setPrivateKey(clientAccount.getPrivateKey());
-			storageClientService.setStorageBucket(clientAccount
-					.getStorageBucket());
+			// initialize the storage client for the source account.
+			initStorageClient();
 
 			log.debug("Upload the asset task version file: " + sourceFilePath);
 			storageClientService.uploadAssetTaskVersion(event.getAssetTaskId(),
@@ -194,13 +188,8 @@ public class ProducerSenderImpl implements ProducerSender {
 		event.setFileExt(sourceFilePath.substring(sourceFilePath
 				.lastIndexOf(".") + 1, sourceFilePath.length()));
 
-		// retrieve the client account from the provider.
-		Account clientAccount = sap.get();
-
-		log.debug("Initialize the storage client service.");
-		storageClientService.setPublicKey(clientAccount.getPublicKey());
-		storageClientService.setPrivateKey(clientAccount.getPrivateKey());
-		storageClientService.setStorageBucket(clientAccount.getStorageBucket());
+		// initialize the storage client for the source account.
+		initStorageClient();
 
 		log.debug("Upload the asset: " + event.getAssetId());
 		storageClientService.uploadAsset(event.getAssetId(),
@@ -230,13 +219,8 @@ public class ProducerSenderImpl implements ProducerSender {
 		event.setFileExt(sourceFilePath.substring(sourceFilePath
 				.lastIndexOf(".") + 1, sourceFilePath.length()));
 
-		// retrieve the client account from the provider.
-		Account clientAccount = sap.get();
-
-		log.debug("Initialize the storage client service.");
-		storageClientService.setPublicKey(clientAccount.getPublicKey());
-		storageClientService.setPrivateKey(clientAccount.getPrivateKey());
-		storageClientService.setStorageBucket(clientAccount.getStorageBucket());
+		// initialize the storage client for the source account.
+		initStorageClient();
 
 		log.debug("Upload the support asset: " + event.getSupportAssetId());
 		storageClientService.uploadSupportAsset(event.getSupportAssetId(),
@@ -263,14 +247,8 @@ public class ProducerSenderImpl implements ProducerSender {
 			event.setFileExt(sourceFilePath.substring(sourceFilePath
 					.lastIndexOf(".") + 1, sourceFilePath.length()));
 
-			// retrieve the client account from the provider.
-			Account clientAccount = sap.get();
-
-			log.debug("Initialize the storage client service.");
-			storageClientService.setPublicKey(clientAccount.getPublicKey());
-			storageClientService.setPrivateKey(clientAccount.getPrivateKey());
-			storageClientService.setStorageBucket(clientAccount
-					.getStorageBucket());
+			// initialize the storage client for the source account.
+			initStorageClient();
 
 			// upload the asset task file
 			storageClientService.uploadAssetTaskVersion(event.getAssetTaskId(),
@@ -343,6 +321,25 @@ public class ProducerSenderImpl implements ProducerSender {
 		queuePublisherService.sendMessage(message);
 		log.debug("Event sent.");
 
+	}
+
+	/**
+	 * Initializes the storage client with the source account values
+	 * (credentials and defaults).
+	 */
+	private void initStorageClient() {
+
+		log.debug("Retrieve the source account from the provider.");
+		Account sourceAccount = sap.get();
+
+		log.debug("Initialize the storage client service.");
+		storageClientService.setPublicKey(sourceAccount.getPublicKey());
+		storageClientService.setPrivateKey(sourceAccount.getPrivateKey());
+		storageClientService.setStorageBucket(sourceAccount.getStorageBucket());
+		storageClientService.setDefaultLocalSourceDirectory(sourceAccount
+				.getLocalSourceDirectory());
+		storageClientService.setDefaultLocalTargetDirectory(sourceAccount
+				.getLocalTargetDirectory());
 	}
 
 }
