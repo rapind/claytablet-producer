@@ -4,8 +4,8 @@ import com.claytablet.service.event.EventListener;
 import com.claytablet.service.event.ProducerEventListener;
 import com.claytablet.service.event.ProducerReceiver;
 import com.claytablet.service.event.ProducerSender;
-import com.claytablet.service.event.mock.ReceiverMock;
-import com.claytablet.service.event.mock.SenderMock;
+import com.claytablet.service.event.impl.ReceiverMock;
+import com.claytablet.service.event.impl.SenderMock;
 
 /**
  * Copyright 2007 Clay Tablet Technologies Inc.
