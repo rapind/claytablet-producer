@@ -45,7 +45,7 @@ import com.google.inject.Singleton;
  * @see ProducerReceiver
  */
 @Singleton
-public class ReceiverMock implements ProducerReceiver {
+public class MockReceiver implements ProducerReceiver {
 
 	private final Log log = LogFactory.getLog(getClass());
 
@@ -64,7 +64,7 @@ public class ReceiverMock implements ProducerReceiver {
 	 * @param storageClientService
 	 */
 	@Inject
-	public ReceiverMock(final ConnectionContext context,
+	public MockReceiver(final ConnectionContext context,
 			final SourceAccountProvider sap,
 			StorageClientService storageClientService) {
 
