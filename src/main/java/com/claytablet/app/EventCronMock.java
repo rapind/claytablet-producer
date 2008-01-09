@@ -3,7 +3,7 @@ package com.claytablet.app;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.claytablet.module.ProducerModuleMock;
+import com.claytablet.module.ModuleMock;
 import com.claytablet.service.event.EventListener;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -36,9 +36,9 @@ import com.google.inject.Injector;
  * When called the event listener service checks for new message events,
  * validates them, and passes them to the receiver for processing.
  */
-public class ProducerEventCronMock {
+public class EventCronMock {
 
-	private static final Log log = LogFactory.getLog(ProducerEventCronMock.class);
+	private static final Log log = LogFactory.getLog(EventCronMock.class);
 
 	// the inteval to sleep for in seconds (300 = 5 minutes)
 	private static final int SLEEP_INTERVAL = 300;
@@ -56,7 +56,7 @@ public class ProducerEventCronMock {
 		log.debug("Initialize dependencies.");
 		// setup the preferred Guice injector for DI
 		// Injector injector = Guice.createInjector(new SQSS3Module());
-		Injector injector = Guice.createInjector(new ProducerModuleMock());
+		Injector injector = Guice.createInjector(new ModuleMock());
 
 		// load the listener
 		EventListener listener = injector.getInstance(EventListener.class);

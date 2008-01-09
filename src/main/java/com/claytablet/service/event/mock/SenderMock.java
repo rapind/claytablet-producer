@@ -65,7 +65,7 @@ import com.google.inject.Singleton;
  * @see AbsEvent
  */
 @Singleton
-public class ProducerSenderMock implements ProducerSender {
+public class SenderMock implements ProducerSender {
 
 	private final Log log = LogFactory.getLog(getClass());
 
@@ -89,7 +89,7 @@ public class ProducerSenderMock implements ProducerSender {
 	 * @param storageClientService
 	 */
 	@Inject
-	public ProducerSenderMock(final ConnectionContext context,
+	public SenderMock(final ConnectionContext context,
 			final SourceAccountProvider sap, final TargetAccountProvider tap,
 			QueuePublisherService queuePublisherService,
 			StorageClientService storageClientService) {
