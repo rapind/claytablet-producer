@@ -8,7 +8,7 @@ import com.claytablet.model.enm.FileType;
 import com.claytablet.model.event.producer.CreateAsset;
 import com.claytablet.model.event.producer.CreateSupportAsset;
 import com.claytablet.model.event.producer.SubmitProject;
-import com.claytablet.module.ProducerModuleMock;
+import com.claytablet.module.ModuleMock;
 import com.claytablet.service.event.ProducerSender;
 import com.claytablet.util.IdGenerator;
 import com.claytablet.util.LanguageUtil;
@@ -39,10 +39,10 @@ import com.google.inject.Injector;
  * Producer event sender that will create and send several assets, support
  * assets, and the wrapping project.
  */
-public class ProducerEventSenderMock {
+public class EventSenderMock {
 
 	private static final Log log = LogFactory
-			.getLog(ProducerEventSenderMock.class);
+			.getLog(EventSenderMock.class);
 
 	/**
 	 * @param args
@@ -52,7 +52,7 @@ public class ProducerEventSenderMock {
 
 		log.debug("Initialize dependencies.");
 		// setup the preferred Guice injector for DI
-		Injector injector = Guice.createInjector(new ProducerModuleMock());
+		Injector injector = Guice.createInjector(new ModuleMock());
 
 		// retrieve the default producer sender instance via Guice.
 		ProducerSender sender = injector.getInstance(ProducerSender.class);
