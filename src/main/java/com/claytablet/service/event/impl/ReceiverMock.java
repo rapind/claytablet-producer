@@ -11,10 +11,8 @@ import com.claytablet.model.event.platform.ReviewAssetTask;
 import com.claytablet.model.event.platform.UpdatedAssetTaskState;
 import com.claytablet.model.event.producer.ApproveAssetTask;
 import com.claytablet.provider.SourceAccountProvider;
-import com.claytablet.queue.service.QueueServiceException;
 import com.claytablet.service.event.EventServiceException;
 import com.claytablet.service.event.ProducerReceiver;
-import com.claytablet.service.event.ProducerSender;
 import com.claytablet.storage.service.StorageClientService;
 import com.claytablet.storage.service.StorageServiceException;
 import com.google.inject.Inject;
@@ -55,8 +53,6 @@ public class ReceiverMock implements ProducerReceiver {
 
 	private final SourceAccountProvider sap;
 
-	private final ProducerSender producerSender;
-
 	private StorageClientService storageClientService;
 
 	/**
@@ -70,12 +66,10 @@ public class ReceiverMock implements ProducerReceiver {
 	@Inject
 	public ReceiverMock(final ConnectionContext context,
 			final SourceAccountProvider sap,
-			final ProducerSender producerSender,
 			StorageClientService storageClientService) {
 
 		this.context = context;
 		this.sap = sap;
-		this.producerSender = producerSender;
 		this.storageClientService = storageClientService;
 	}
 
@@ -135,12 +129,6 @@ public class ReceiverMock implements ProducerReceiver {
 		ApproveAssetTask event2 = new ApproveAssetTask();
 		event2.setAssetTaskId(event.getAssetTaskId());
 		event2.setReviewNote("Test review note.");
-
-		try {
-			producerSender.sendEvent(event2, downloadPath);
-		} catch (QueueServiceException e) {
-			log.error(e);
-		}
 
 	}
 
