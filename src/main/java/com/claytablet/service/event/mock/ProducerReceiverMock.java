@@ -3,6 +3,7 @@ package com.claytablet.service.event.mock;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.claytablet.model.ConnectionContext;
 import com.claytablet.model.event.Account;
 import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
@@ -50,26 +51,32 @@ public class ProducerReceiverMock implements ProducerReceiver {
 
 	private final Log log = LogFactory.getLog(getClass());
 
-	private SourceAccountProvider sap;
+	private final ConnectionContext context;
+
+	private final SourceAccountProvider sap;
+
+	private final ProducerSender producerSender;
 
 	private StorageClientService storageClientService;
-
-	private ProducerSender producerSender;
 
 	/**
 	 * Constructor for dependency injection.
 	 * 
+	 * @param context
 	 * @param sap
-	 * @param storageClientService
 	 * @param producerSender
+	 * @param storageClientService
 	 */
 	@Inject
-	public ProducerReceiverMock(SourceAccountProvider sap,
-			StorageClientService storageClientService,
-			ProducerSender producerSender) {
+	public ProducerReceiverMock(final ConnectionContext context,
+			final SourceAccountProvider sap,
+			final ProducerSender producerSender,
+			StorageClientService storageClientService) {
+
+		this.context = context;
 		this.sap = sap;
-		this.storageClientService = storageClientService;
 		this.producerSender = producerSender;
+		this.storageClientService = storageClientService;
 	}
 
 	/*
