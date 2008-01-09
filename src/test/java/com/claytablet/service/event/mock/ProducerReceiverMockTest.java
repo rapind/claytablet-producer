@@ -1,9 +1,9 @@
-package com.claytablet.service.event.impl;
+package com.claytablet.service.event.mock;
 
 import org.junit.After;
 import org.junit.Before;
 
-import com.claytablet.module.ProducerTestModule;
+import com.claytablet.module.ProducerModuleMock;
 import com.claytablet.service.event.AbsProducerReceiverTest;
 import com.google.inject.Guice;
 
@@ -35,7 +35,7 @@ import com.google.inject.Guice;
  * @see AbsProducerReceiverTest
  * @see ProducerReceiverImpl
  */
-public class ProducerReceiverImplTest extends AbsProducerReceiverTest {
+public class ProducerReceiverMockTest extends AbsProducerReceiverTest {
 
 	// -------------------------------------------------------------------------
 	// Initializations
@@ -50,8 +50,8 @@ public class ProducerReceiverImplTest extends AbsProducerReceiverTest {
 		log.debug("SETUP: ");
 
 		log.debug("Inject the event receiver implementation.");
-		receiver = Guice.createInjector(new ProducerTestModule()).getInstance(
-				ProducerReceiverImpl.class);
+		receiver = Guice.createInjector(new ProducerModuleMock()).getInstance(
+				ProducerReceiverMock.class);
 
 		// call the super to finalize setup
 		super.setUp();

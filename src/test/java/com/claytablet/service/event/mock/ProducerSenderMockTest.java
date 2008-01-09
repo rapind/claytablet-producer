@@ -1,9 +1,9 @@
-package com.claytablet.service.event.impl;
+package com.claytablet.service.event.mock;
 
 import org.junit.After;
 import org.junit.Before;
 
-import com.claytablet.module.ProducerTestModule;
+import com.claytablet.module.ProducerModuleMock;
 import com.claytablet.service.event.AbsProducerSenderTest;
 import com.google.inject.Guice;
 
@@ -35,7 +35,7 @@ import com.google.inject.Guice;
  * @see AbsProducerSenderTest
  * @see ProducerSenderMock
  */
-public class ProducerSenderImplTest extends AbsProducerSenderTest {
+public class ProducerSenderMockTest extends AbsProducerSenderTest {
 
 	// -------------------------------------------------------------------------
 	// Initializations
@@ -51,7 +51,7 @@ public class ProducerSenderImplTest extends AbsProducerSenderTest {
 		log.debug("SETUP: ");
 
 		log.debug("Inject the event sender implementation.");
-		sender = Guice.createInjector(new ProducerTestModule()).getInstance(
+		sender = Guice.createInjector(new ProducerModuleMock()).getInstance(
 				ProducerSenderMock.class);
 
 		// call the super to finalize setup
