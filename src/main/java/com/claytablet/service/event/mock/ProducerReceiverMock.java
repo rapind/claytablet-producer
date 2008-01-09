@@ -72,25 +72,6 @@ public class ProducerReceiverMock implements ProducerReceiver {
 		this.producerSender = producerSender;
 	}
 
-	/**
-	 * Initializes the storage client with the source account values
-	 * (credentials and defaults).
-	 */
-	private void initStorageClient() {
-
-		log.debug("Retrieve the source account from the provider.");
-		Account sourceAccount = sap.get();
-
-		log.debug("Initialize the storage client service.");
-		storageClientService.setPublicKey(sourceAccount.getPublicKey());
-		storageClientService.setPrivateKey(sourceAccount.getPrivateKey());
-		storageClientService.setStorageBucket(sourceAccount.getStorageBucket());
-		storageClientService.setDefaultLocalSourceDirectory(sourceAccount
-				.getLocalSourceDirectory());
-		storageClientService.setDefaultLocalTargetDirectory(sourceAccount
-				.getLocalTargetDirectory());
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -166,5 +147,24 @@ public class ProducerReceiverMock implements ProducerReceiver {
 
 		// do nothing
 
+	}
+
+	/**
+	 * Initializes the storage client with the source account values
+	 * (credentials and defaults).
+	 */
+	private void initStorageClient() {
+
+		log.debug("Retrieve the source account from the provider.");
+		Account sourceAccount = sap.get();
+
+		log.debug("Initialize the storage client service.");
+		storageClientService.setPublicKey(sourceAccount.getPublicKey());
+		storageClientService.setPrivateKey(sourceAccount.getPrivateKey());
+		storageClientService.setStorageBucket(sourceAccount.getStorageBucket());
+		storageClientService.setDefaultLocalSourceDirectory(context
+				.getSourceDirectory());
+		storageClientService.setDefaultLocalTargetDirectory(context
+				.getTargetDirectory());
 	}
 }

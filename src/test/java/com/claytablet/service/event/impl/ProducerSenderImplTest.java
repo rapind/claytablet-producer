@@ -33,7 +33,7 @@ import com.google.inject.Guice;
  * 
  * <p>
  * @see AbsProducerSenderTest
- * @see ProducerSenderImpl
+ * @see ProducerSenderMock
  */
 public class ProducerSenderImplTest extends AbsProducerSenderTest {
 
@@ -52,7 +52,7 @@ public class ProducerSenderImplTest extends AbsProducerSenderTest {
 
 		log.debug("Inject the event sender implementation.");
 		sender = Guice.createInjector(new ProducerTestModule()).getInstance(
-				ProducerSenderImpl.class);
+				ProducerSenderMock.class);
 
 		// call the super to finalize setup
 		super.setUp();
