@@ -4,8 +4,8 @@ import com.claytablet.service.event.EventListener;
 import com.claytablet.service.event.ProducerEventListener;
 import com.claytablet.service.event.ProducerReceiver;
 import com.claytablet.service.event.ProducerSender;
-import com.claytablet.service.event.impl.ReceiverMock;
-import com.claytablet.service.event.impl.SenderMock;
+import com.claytablet.service.event.impl.MockReceiver;
+import com.claytablet.service.event.impl.MockSender;
 
 /**
  * Copyright 2007 Clay Tablet Technologies Inc.
@@ -32,7 +32,7 @@ import com.claytablet.service.event.impl.SenderMock;
  * the event listener binding and overrides the default receiver binding for a
  * mock implementation.
  */
-public class ModuleMock extends SQSS3Module {
+public class MockModule extends SQSS3Module {
 
 	protected void configure() {
 
@@ -40,8 +40,8 @@ public class ModuleMock extends SQSS3Module {
 
 		bind(EventListener.class).to(ProducerEventListener.class);
 
-		bind(ProducerReceiver.class).to(ReceiverMock.class);
-		bind(ProducerSender.class).to(SenderMock.class);
+		bind(ProducerReceiver.class).to(MockReceiver.class);
+		bind(ProducerSender.class).to(MockSender.class);
 
 	}
 }

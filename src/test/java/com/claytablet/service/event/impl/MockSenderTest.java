@@ -3,9 +3,9 @@ package com.claytablet.service.event.impl;
 import org.junit.After;
 import org.junit.Before;
 
-import com.claytablet.module.ModuleMock;
+import com.claytablet.module.MockModule;
 import com.claytablet.service.event.AbsProducerSenderTest;
-import com.claytablet.service.event.impl.SenderMock;
+import com.claytablet.service.event.impl.MockSender;
 import com.google.inject.Guice;
 
 /**
@@ -34,9 +34,9 @@ import com.google.inject.Guice;
  * 
  * <p>
  * @see AbsProducerSenderTest
- * @see SenderMock
+ * @see MockSender
  */
-public class SenderMockTest extends AbsProducerSenderTest {
+public class MockSenderTest extends AbsProducerSenderTest {
 
 	// -------------------------------------------------------------------------
 	// Initializations
@@ -52,8 +52,8 @@ public class SenderMockTest extends AbsProducerSenderTest {
 		log.debug("SETUP: ");
 
 		log.debug("Inject the event sender implementation.");
-		sender = Guice.createInjector(new ModuleMock()).getInstance(
-				SenderMock.class);
+		sender = Guice.createInjector(new MockModule()).getInstance(
+				MockSender.class);
 
 		// call the super to finalize setup
 		super.setUp();
