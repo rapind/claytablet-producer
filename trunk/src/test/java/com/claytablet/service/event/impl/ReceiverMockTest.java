@@ -1,10 +1,11 @@
-package com.claytablet.service.event.mock;
+package com.claytablet.service.event.impl;
 
 import org.junit.After;
 import org.junit.Before;
 
 import com.claytablet.module.ModuleMock;
-import com.claytablet.service.event.AbsProducerSenderTest;
+import com.claytablet.service.event.AbsProducerReceiverTest;
+import com.claytablet.service.event.impl.ReceiverMock;
 import com.google.inject.Guice;
 
 /**
@@ -32,10 +33,10 @@ import com.google.inject.Guice;
  * within the base class.
  * 
  * <p>
- * @see AbsProducerSenderTest
- * @see SenderMock
+ * @see AbsProducerReceiverTest
+ * @see ProducerReceiverImpl
  */
-public class SenderMockTest extends AbsProducerSenderTest {
+public class ReceiverMockTest extends AbsProducerReceiverTest {
 
 	// -------------------------------------------------------------------------
 	// Initializations
@@ -43,16 +44,15 @@ public class SenderMockTest extends AbsProducerSenderTest {
 
 	/**
 	 * This is run before every unit test and is used to setup test variables.
-	 * 
 	 */
 	@Before
 	public void setUp() {
 
 		log.debug("SETUP: ");
 
-		log.debug("Inject the event sender implementation.");
-		sender = Guice.createInjector(new ModuleMock()).getInstance(
-				SenderMock.class);
+		log.debug("Inject the event receiver implementation.");
+		receiver = Guice.createInjector(new ModuleMock()).getInstance(
+				ReceiverMock.class);
 
 		// call the super to finalize setup
 		super.setUp();
