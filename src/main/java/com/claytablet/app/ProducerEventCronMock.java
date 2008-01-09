@@ -36,9 +36,9 @@ import com.google.inject.Injector;
  * When called the event listener service checks for new message events,
  * validates them, and passes them to the receiver for processing.
  */
-public class ProducerEventCron {
+public class ProducerEventCronMock {
 
-	private static final Log log = LogFactory.getLog(ProducerEventCron.class);
+	private static final Log log = LogFactory.getLog(ProducerEventCronMock.class);
 
 	// the inteval to sleep for in seconds (300 = 5 minutes)
 	private static final int SLEEP_INTERVAL = 300;
