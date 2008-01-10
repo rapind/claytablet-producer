@@ -1,0 +1,26 @@
+<mappings>
+  <entry>
+    <string>de-ch</string>
+    <string>de</string>
+  </entry>
+  <entry>
+    <string>fr-ca</string>
+    <string>fr</string>
+  </entry>
+  <entry>
+    <string>en-us</string>
+    <string>en</string>
+  </entry>
+  <entry>
+    <string>de-at</string>
+    <string>de</string>
+  </entry>
+  <entry>
+    <string>en-au</string>
+    <string>en</string>
+  </entry>
+  <entry>
+    <string>en-ca</string>
+    <string>en</string>
+  </entry>
+</mappings>
