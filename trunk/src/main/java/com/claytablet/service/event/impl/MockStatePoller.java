@@ -8,7 +8,7 @@ import com.claytablet.model.ConnectionContext;
 import com.claytablet.model.LanguageMap;
 import com.claytablet.model.event.producer.ApproveAssetTask;
 import com.claytablet.service.event.ProducerSender;
-import com.claytablet.service.event.ProviderSender;
+import com.claytablet.service.event.ProducerStatePoller;
 import com.claytablet.service.event.ProviderStatePoller;
 import com.claytablet.service.event.stubs.MockStub;
 import com.google.inject.Inject;
@@ -35,11 +35,10 @@ import com.google.inject.Singleton;
  * @author <a href="mailto:drapin@clay-tablet.com">Dave Rapin</a>
  * 
  * <p>
- * This is the mock implementation for the provider state poller.
+ * This is the mock implementation for the producer state poller.
  * 
- * @see ProviderStatePoller
- * @see ProviderSender
- * @see UpdateAssetTask
+ * @see ProducerStatePoller
+ * @see ProducerSender
  */
 @Singleton
 public class MockStatePoller implements ProviderStatePoller {
@@ -91,6 +90,8 @@ public class MockStatePoller implements ProviderStatePoller {
 
 		ApproveAssetTask event = new ApproveAssetTask();
 		event.setAssetTaskId("mock-id");
+		event.setReviewNote("Mock note.");
+		event.setWithContent(false);
 		sender.sendEvent(event, null);
 
 	}
