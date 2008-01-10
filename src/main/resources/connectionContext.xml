@@ -1,0 +1,19 @@
+<ConnectionContext>
+  <xmlDataDirectory>./data/</xmlDataDirectory>
+  <sourceDirectory>./files/source/</sourceDirectory>
+  <targetDirectory>./files/target/</targetDirectory>
+  <connectionParms>
+    <entry>
+      <string>mock-key3</string>
+      <string>mock-value3</string>
+    </entry>
+    <entry>
+      <string>mock-key2</string>
+      <string>mock-value2</string>
+    </entry>
+    <entry>
+      <string>mock-key1</string>
+      <string>mock-value1</string>
+    </entry>
+  </connectionParms>
+</ConnectionContext>
