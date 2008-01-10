@@ -9,7 +9,6 @@ import com.claytablet.model.LanguageMap;
 import com.claytablet.model.event.producer.ApproveAssetTask;
 import com.claytablet.service.event.ProducerSender;
 import com.claytablet.service.event.ProducerStatePoller;
-import com.claytablet.service.event.ProviderStatePoller;
 import com.claytablet.service.event.stubs.MockStub;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -41,7 +40,7 @@ import com.google.inject.Singleton;
  * @see ProducerSender
  */
 @Singleton
-public class MockStatePoller implements ProviderStatePoller {
+public class MockStatePoller implements ProducerStatePoller {
 
 	private final Log log = LogFactory.getLog(getClass());
 
