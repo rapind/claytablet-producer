@@ -129,11 +129,14 @@ public class MockStub {
 		// Within the stub you have access to the following objects through
 		// dependency injection:
 		// 1. The connection context parameters which are hold connection
-		// information specific to a provider system.
+		// information specific to a connector system.
 		// 2. The language mappings which are used to map clay tablet language
-		// codes to provider specific language codes.
-		// 3. The asset task mappings which are used to map clay tablet asset
-		// task identifier to provider specific identifiers and projects.
+		// codes to connector specific language codes.
+		// 3. The asset mappings which are used to map clay tablet asset
+		// identifiers to connector specific asset identifiers and projects.
+		// 4. The asset task mappings which are used to map clay tablet asset
+		// task identifiers to connector specific asset task identifiers and
+		// projects.
 
 		// Event fields and new file paths can be passed in from the receiver or
 		// poller as needed.
