@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.claytablet.model.AssetMap;
+import com.claytablet.model.AssetTaskMap;
 import com.claytablet.model.ConnectionContext;
 import com.claytablet.model.LanguageMap;
 import com.claytablet.model.event.Account;
@@ -60,6 +61,9 @@ public class MockReceiver implements ProducerReceiver {
 	// also injected into the stub, use where appropriate
 	private AssetMap assetMap;
 
+	// also injected into the stub, use where appropriate
+	private AssetTaskMap assetTaskMap;
+
 	private final MockStub stub;
 
 	private StorageClientService storageClientService;
@@ -71,19 +75,21 @@ public class MockReceiver implements ProducerReceiver {
 	 * @param sap
 	 * @param languageMap
 	 * @param assetMap
+	 * @param assetTaskMap
 	 * @param stub
 	 * @param storageClientService
 	 */
 	@Inject
 	public MockReceiver(final ConnectionContext context,
 			final SourceAccountProvider sap, final LanguageMap languageMap,
-			AssetMap assetMap, final MockStub stub,
+			AssetMap assetMap, AssetTaskMap assetTaskMap, final MockStub stub,
 			StorageClientService storageClientService) {
 
 		this.context = context;
 		this.sap = sap;
 		this.languageMap = languageMap;
 		this.assetMap = assetMap;
+		this.assetTaskMap = assetTaskMap;
 		this.stub = stub;
 		this.storageClientService = storageClientService;
 	}
