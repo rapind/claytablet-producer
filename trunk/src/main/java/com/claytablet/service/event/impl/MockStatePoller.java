@@ -3,7 +3,7 @@ package com.claytablet.service.event.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.claytablet.model.AssetTaskMap;
+import com.claytablet.model.AssetMap;
 import com.claytablet.model.ConnectionContext;
 import com.claytablet.model.LanguageMap;
 import com.claytablet.model.event.producer.ApproveAssetTask;
@@ -51,7 +51,7 @@ public class MockStatePoller implements ProducerStatePoller {
 	private final LanguageMap languageMap;
 
 	// also injected into the stub, use where appropriate
-	private AssetTaskMap assetTaskMap;
+	private AssetMap assetMap;
 
 	private final ProducerSender sender;
 
@@ -62,18 +62,18 @@ public class MockStatePoller implements ProducerStatePoller {
 	 * 
 	 * @param context
 	 * @param languageMap
-	 * @param assetTaskMap
+	 * @param assetMap
 	 * @param sender
 	 * @param stub
 	 */
 	@Inject
 	public MockStatePoller(final ConnectionContext context,
-			final LanguageMap languageMap, AssetTaskMap assetTaskMap,
+			final LanguageMap languageMap, AssetMap assetMap,
 			final ProducerSender sender, final MockStub stub) {
 
 		this.context = context;
 		this.languageMap = languageMap;
-		this.assetTaskMap = assetTaskMap;
+		this.assetMap = assetMap;
 		this.sender = sender;
 		this.stub = stub;
 	}

@@ -3,7 +3,9 @@ package com.claytablet.service.event.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.claytablet.model.AssetMap;
 import com.claytablet.model.ConnectionContext;
+import com.claytablet.model.LanguageMap;
 import com.claytablet.model.event.Account;
 import com.claytablet.model.event.platform.CompletedProject;
 import com.claytablet.model.event.platform.ProcessingError;
@@ -13,6 +15,7 @@ import com.claytablet.model.event.producer.ApproveAssetTask;
 import com.claytablet.provider.SourceAccountProvider;
 import com.claytablet.service.event.EventServiceException;
 import com.claytablet.service.event.ProducerReceiver;
+import com.claytablet.service.event.stubs.MockStub;
 import com.claytablet.storage.service.StorageClientService;
 import com.claytablet.storage.service.StorageServiceException;
 import com.google.inject.Inject;
@@ -39,19 +42,25 @@ import com.google.inject.Singleton;
  * @author <a href="mailto:drapin@clay-tablet.com">Dave Rapin</a>
  * 
  * <p>
- * This is the default implementation for the producer receiver.
- * 
- * <p>
- * @see ProducerReceiver
+ * This is the mock implementation for the producer receiver.
  */
 @Singleton
 public class MockReceiver implements ProducerReceiver {
 
 	private final Log log = LogFactory.getLog(getClass());
 
+	// also injected into the stub, use where appropriate
 	private final ConnectionContext context;
 
 	private final SourceAccountProvider sap;
+
+	// also injected into the stub, use where appropriate
+	private final LanguageMap languageMap;
+
+	// also injected into the stub, use where appropriate
+	private AssetMap assetMap;
+
+	private final MockStub stub;
 
 	private StorageClientService storageClientService;
 
@@ -60,16 +69,22 @@ public class MockReceiver implements ProducerReceiver {
 	 * 
 	 * @param context
 	 * @param sap
-	 * @param producerSender
+	 * @param languageMap
+	 * @param assetMap
+	 * @param stub
 	 * @param storageClientService
 	 */
 	@Inject
 	public MockReceiver(final ConnectionContext context,
-			final SourceAccountProvider sap,
+			final SourceAccountProvider sap, final LanguageMap languageMap,
+			AssetMap assetMap, final MockStub stub,
 			StorageClientService storageClientService) {
 
 		this.context = context;
 		this.sap = sap;
+		this.languageMap = languageMap;
+		this.assetMap = assetMap;
+		this.stub = stub;
 		this.storageClientService = storageClientService;
 	}
 
