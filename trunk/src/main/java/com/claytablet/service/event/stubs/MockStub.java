@@ -84,11 +84,12 @@ public class MockStub {
 
 		log.debug("** Asset Task mappings **");
 		for (String key : assetTaskMap.keys()) {
-			log.debug("Provider Asset Task ID -- " + key + " --");
+			log.debug("Connector Asset Task ID -- " + key + " --");
 			AssetTaskMapping mapping = assetTaskMap.get(key);
 			log.debug("CTT Asset Task ID: " + mapping.getCttAssetTaskId());
 			log.debug("CTT Project ID: " + mapping.getCttProjectId());
-			log.debug("Provider Project ID: " + mapping.getProviderProjectId());
+			log.debug("Connector Project ID: "
+					+ mapping.getConnectorProjectId());
 			log.debug("Source language: " + mapping.getSourceLanguageCode());
 			log.debug("Target language: " + mapping.getTargetLanguageCode());
 
