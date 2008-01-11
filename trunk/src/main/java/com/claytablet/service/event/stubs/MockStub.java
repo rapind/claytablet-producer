@@ -6,6 +6,8 @@ import java.util.Hashtable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.claytablet.model.AssetMap;
+import com.claytablet.model.AssetMapping;
 import com.claytablet.model.AssetTaskMap;
 import com.claytablet.model.AssetTaskMapping;
 import com.claytablet.model.ConnectionContext;
@@ -46,6 +48,8 @@ public class MockStub {
 
 	private final LanguageMap languageMap;
 
+	private AssetMap assetMap;
+
 	private AssetTaskMap assetTaskMap;
 
 	/**
@@ -53,14 +57,17 @@ public class MockStub {
 	 * 
 	 * @param context
 	 * @param languageMap
+	 * @param assetMap
 	 * @param assetTaskMap
 	 */
 	@Inject
 	public MockStub(final ConnectionContext context,
-			final LanguageMap languageMap, AssetTaskMap assetTaskMap) {
+			final LanguageMap languageMap, AssetMap assetMap,
+			AssetTaskMap assetTaskMap) {
 
 		this.context = context;
 		this.languageMap = languageMap;
+		this.assetMap = assetMap;
 		this.assetTaskMap = assetTaskMap;
 	}
 
@@ -80,6 +87,17 @@ public class MockStub {
 		log.debug("** Language mappings **");
 		for (String key : languageMap.keys()) {
 			log.debug(key + ": " + languageMap.get(key));
+		}
+
+		log.debug("** Asset mappings **");
+		for (String key : assetMap.keys()) {
+			log.debug("Connector Asset ID -- " + key + " --");
+			AssetMapping mapping = assetMap.get(key);
+			log.debug("CTT Asset ID: " + mapping.getCttAssetId());
+			log.debug("CTT Project ID: " + mapping.getCttProjectId());
+			log.debug("Connector Project ID: "
+					+ mapping.getConnectorProjectId());
+
 		}
 
 		log.debug("** Asset Task mappings **");
