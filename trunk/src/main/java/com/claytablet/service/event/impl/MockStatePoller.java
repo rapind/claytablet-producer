@@ -36,9 +36,6 @@ import com.google.inject.Singleton;
  * 
  * <p>
  * This is the mock implementation for the producer state poller.
- * 
- * @see ProducerStatePoller
- * @see ProducerSender
  */
 @Singleton
 public class MockStatePoller implements ProducerStatePoller {
