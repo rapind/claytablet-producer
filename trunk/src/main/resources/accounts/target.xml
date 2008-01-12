@@ -10,6 +10,4 @@
   <queueEndpoint>https://queue.amazonaws.com:443/AIYT74T0UF7T3/ctt-platform-staging</queueEndpoint>
   <storageType>S3</storageType>
   <storageBucket></storageBucket>
-  <localSourceDirectory></localSourceDirectory>
-  <localTargetDirectory></localTargetDirectory>
 </com.claytablet.model.event.Account>
