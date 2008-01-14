@@ -1,10 +1,24 @@
 <mappings>
   <entry>
-    <string>mock-provider-assetTask-id2</string>
-    <string>mock-ctt-assetTask-id2</string>
+    <string>mock-connector-assetTask-id1</string>
+    <mapping>
+      <cttAssetTaskId>mock-ctt-assetTask-id1</cttAssetTaskId>
+      <cttProjectId>ctt-project-id</cttProjectId>
+      <connectorProjectId>connector-project-id</connectorProjectId>
+      <sourceLanguageCode>en-us</sourceLanguageCode>
+      <targetLanguageCode>fr</targetLanguageCode>
+      <originalFileExt>pdf</originalFileExt>
+    </mapping>
   </entry>
   <entry>
-    <string>mock-provider-assetTask-id1</string>
-    <string>mock-ctt-assetTask-id1</string>
+    <string>mock-connector-assetTask-id2</string>
+    <mapping>
+      <cttAssetTaskId>mock-ctt-assetTask-id2</cttAssetTaskId>
+      <cttProjectId>ctt-project-id</cttProjectId>
+      <connectorProjectId>connector-project-id</connectorProjectId>
+      <sourceLanguageCode>en-us</sourceLanguageCode>
+      <targetLanguageCode>de</targetLanguageCode>
+      <originalFileExt>doc</originalFileExt>
+    </mapping>
   </entry>
 </mappings>
