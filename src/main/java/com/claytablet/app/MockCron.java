@@ -3,6 +3,7 @@ package com.claytablet.app;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.claytablet.model.AssetMap;
 import com.claytablet.module.MockModule;
 import com.claytablet.service.event.EventListener;
 import com.claytablet.service.event.ProducerStatePoller;
@@ -74,11 +75,18 @@ public class MockCron {
 		log.debug("Start the endless loop.");
 		while (true) {
 
-			// check for messages
+			log.debug("Check for messages.");
 			listener.checkMessages(MAX_MESSAGES);
 
-			// check for state changes
+			log.debug("Check for state changes.");
 			poller.poll();
+
+			log.debug("Retrieve the asset mappings.");
+			AssetMap assetMap = injector.getInstance(AssetMap.class);
+			if (assetMap.size() > 0) {
+				log.debug("Save the asset mappings.");
+				assetMap.save();
+			}
 
 			log.debug("sleeping for " + SLEEP_INTERVAL + " seconds.");
 			Thread.sleep(SLEEP_INTERVAL * 1000);
