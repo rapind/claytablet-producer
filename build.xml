@@ -103,15 +103,15 @@
 				<include name="com/claytablet/**"/>
 			</packageset>
 
-			<packageset dir="../event-api/src/main/java" defaultexcludes="yes">
+			<packageset dir="../../event-api/src/main/java" defaultexcludes="yes">
 				<include name="com/claytablet/**"/>
 			</packageset>
 
-			<packageset dir="../queue/src/main/java" defaultexcludes="yes">
+			<packageset dir="../../queue/src/main/java" defaultexcludes="yes">
 				<include name="com/claytablet/**"/>
 			</packageset>
 
-			<packageset dir="../storage/src/main/java" defaultexcludes="yes">
+			<packageset dir="../../storage/src/main/java" defaultexcludes="yes">
 				<include name="com/claytablet/**"/>
 			</packageset>
 
