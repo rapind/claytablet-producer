@@ -17,8 +17,7 @@ Ruby SQS & S3 libraries:
   * https://rubyforge.org/projects/ruby-s3
 
 PHP SQS & S3 libraries:
-  * http://www.intellispire.com/web/grid-computing/amazon-web-services/php-sqs-class-released.html
-  * http://edoceo.com/creo/phps3tk/
+  * http://code.google.com/p/php-aws/
 
 Python SQS & S3 library:
   * http://pypi.python.org/pypi/Python-Amazon/0.5
